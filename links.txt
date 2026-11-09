@@ -1,0 +1,8 @@
+GitHub repo: <https://github.com/.../data266-lab2-team##>
+p1-v1.0 commit: 
+p2-v1.0 commit: 
+p3-v1.0 commit: 
+Hugging Face model (run 1, LoRA r=4): 
+Hugging Face model (run 2, LoRA r=32): 
+Hugging Face image dataset: 
+Final Kaggle notebook: 

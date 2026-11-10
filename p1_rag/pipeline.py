@@ -13,7 +13,7 @@ from p1_rag.rag import RAGSystem
 ANSWER_LLM = os.environ.get("P1_LLM", "unsloth/Qwen2.5-14B-Instruct-bnb-4bit")   # pre-quantised 4-bit Qwen2.5-14B-Instruct (~9.5 GB); "none" -> VLM answers
 
 
-DESCRIBE_VLM = os.environ.get("P1_VLM", "unsloth/Qwen2.5-VL-7B-Instruct-bnb-4bit")   # reads the charts once, at ingestion
+DESCRIBE_VLM = os.environ.get("P1_VLM", "Qwen/Qwen2.5-VL-7B-Instruct")   # reads the charts once, at ingestion
 
 
 def build(data_dir=None, work_dir="work_p1", mode="hybrid", reranker_id=None, vlm=None, answer_llm=ANSWER_LLM):
@@ -22,7 +22,7 @@ def build(data_dir=None, work_dir="work_p1", mode="hybrid", reranker_id=None, vl
     If the 7B VLM cannot be loaded, the 3B VLM is used instead."""
     data_dir = find_data_dir(data_dir)
     if vlm is None:
-        vlm = VLM(DESCRIBE_VLM)
+        vlm = VLM(DESCRIBE_VLM, quant="4bit")
         try:
             items, figures = ingest(data_dir, work_dir, vlm)
         except Exception as e:                          # e.g. quantised checkpoint not loadable -> fall back

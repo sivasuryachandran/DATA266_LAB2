@@ -31,8 +31,8 @@ def extract_json(text: str):
 
 class VLM:
     def __init__(self, model_id: str = DEFAULT_MODEL, dtype: str = "float16",
-                 max_pixels: int = 640 * 28 * 28, min_pixels: int = 64 * 28 * 28):
-        self.model_id, self.dtype_name = model_id, dtype
+                 max_pixels: int = 640 * 28 * 28, min_pixels: int = 64 * 28 * 28, quant: str | None = None):
+        self.model_id, self.dtype_name, self.quant = model_id, dtype, quant      # quant: None | "4bit" (bitsandbytes NF4)
         self.max_pixels, self.min_pixels = max_pixels, min_pixels
         self.model = None
         self.processor = None
@@ -42,9 +42,14 @@ class VLM:
         from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
         name = dtype_name or self.dtype_name
         self.dtype_name = name
+        kw = {}
+        if self.quant == "4bit":
+            from transformers import BitsAndBytesConfig
+            kw["quantization_config"] = BitsAndBytesConfig(
+                load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=getattr(torch, name))
         self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             self.model_id, torch_dtype=getattr(torch, name), attn_implementation="sdpa",
-            device_map="cuda" if torch.cuda.is_available() else None)
+            device_map="cuda" if torch.cuda.is_available() else None, **kw)
         self.model.eval()
         if self.processor is None:
             self.processor = AutoProcessor.from_pretrained(

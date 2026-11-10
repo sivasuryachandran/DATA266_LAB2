@@ -27,3 +27,9 @@ p2.log
 p2.err
 p3.log
 p3.err
+
+fig*.log
+fig*.err
+pub*.log
+pub*.err
+*.zip

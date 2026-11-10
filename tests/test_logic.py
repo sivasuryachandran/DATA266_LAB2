@@ -10,6 +10,39 @@ from p3_agents.scenarios import REDTEAM, SCENARIOS
 from p3_agents.state import State
 
 
+class P1Answers(unittest.TestCase):
+    """CPU-only checks of the answer post-processing in p1_rag.rag (no model needed)."""
+
+    def test_truncated_json_is_not_echoed(self):
+        from p1_rag.rag import RAGSystem
+        raw = '{"evidence": "a long quote", "answer": "The rate was 9.6% in 2010.", "status": "answered", "citat'
+        out = RAGSystem._validate(None, raw, {"DOC1:p5"}, set(), ["DOC1:p5"], {})
+        self.assertEqual(out["answer"], "The rate was 9.6% in 2010.")
+        out = RAGSystem._validate(None, '{"evidence": "only this", ', {"DOC1:p5"}, set(), ["DOC1:p5"], {})
+        self.assertNotIn("{", out["answer"])
+
+    def test_citation_canonical_forms(self):
+        from p1_rag.rag import RAGSystem
+        allowed = {"DOC1:Table 1-2", "DOC2:p3"}
+        self.assertEqual(RAGSystem._canon("doc1:table 1-2", allowed, {}), "DOC1:Table 1-2")
+        self.assertEqual(RAGSystem._canon("DOC2:page 3", allowed, {}), "DOC2:p3")
+        self.assertIsNone(RAGSystem._canon("DOC3:p9", allowed, {}))
+
+    def test_evidence_must_be_in_sources(self):
+        from p1_rag.rag import RAGSystem
+        blocks = ["[SOURCE DOC1:p1 | page 1]\nOn September 15, 2008, a major bank, Lehman Brothers, went bankrupt."]
+        self.assertTrue(RAGSystem._supported("On September 15, 2008, a major bank, Lehman Brothers, went bankrupt", blocks))
+        self.assertFalse(RAGSystem._supported("Lehman collapsed on 25 September 2008 and markets fell 50%", blocks))
+
+    def test_table_cleaning(self):
+        from p1_rag.ingest import clean_table
+        rows = [["Percent", "", "2011", "2012"], ["Euro area", "Unemployment rate", "10.2 (9.9)", "11.4 (9.9)"],
+                ["", "Inflation rate", "1.3 (2.5)", "1.3 (1.5)"]]
+        text, row_strs = clean_table(rows, "Table A-2 outturns (fall-2011 forecast in brackets)")
+        self.assertIn("11.4 (outturn; earlier fall-2011 forecast 9.9)", text)
+        self.assertIn("Euro area, Inflation rate", " ".join(row_strs) + text)   # blank leading cell filled down
+
+
 class P1(unittest.TestCase):
     def test_labels(self):
         self.assertEqual(T.find_labels("see Figure A-5 and Figure B-5 (corrected), also Table 1-2"),

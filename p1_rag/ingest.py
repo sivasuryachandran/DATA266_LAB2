@@ -206,7 +206,7 @@ def describe_figures(vlm: VLM, figures: list[dict]) -> list[dict]:
     for f in figures:
         from PIL import Image
         raw = vlm.generate(DESCRIBE_PROMPT.format(caption=f["caption"][:300]),
-                           images=[Image.open(f["image"]).convert("RGB")], max_new_tokens=450)
+                           images=[Image.open(f["image"]).convert("RGB")], max_new_tokens=900)
         f["injection_in_image"] = has_injection(raw)
         f["description"], _ = sanitize(raw)
     return figures

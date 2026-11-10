@@ -70,6 +70,18 @@ class Retriever:
                     have.add(d)
         return [self.items[i] for i in ids]
 
+    def search_doc(self, query: str, doc_id: str, k: int = 2) -> list[dict]:
+        """Best k trusted items of ONE document (used to compare what each document says about the same quantity)."""
+        fused = rrf([self._dense(query, 60), self._bm25(query, 60)])
+        out = []
+        for i, _ in fused:
+            it = self.items[i]
+            if it["doc_id"] == doc_id and not it["untrusted"]:
+                out.append(it)
+                if len(out) == k:
+                    break
+        return out
+
     def figure_lookup(self, labels: list[str]) -> list[dict]:
         """Exact figure/table by label. 'Figure B-5' and 'Figure B-5 (corrected)' are different objects;
         when the plain label is asked for and a corrected sibling exists, both are returned (the revision rule

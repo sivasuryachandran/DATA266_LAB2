@@ -9,10 +9,12 @@ from p1_rag.rag import RAGSystem
 
 out = sys.argv[1] if len(sys.argv) > 1 else "submission_dev.csv"
 data = find_data_dir()
-items, figures = ingest(data, "work_p1", None)
+dvlm = VLM(os.environ.get("P1_VLM", "Qwen/Qwen2.5-VL-7B-Instruct"), quant="4bit")   # describes figures once (cached per model)
+items, figures = ingest(data, "work_p1", dvlm)
+dvlm.unload()
 shutil.rmtree("work_p1/chroma_pub", ignore_errors=True)
 llm = TextLLM(os.environ["P1_LLM"]) if os.environ.get("P1_LLM", "none") != "none" else None
-system = RAGSystem(Retriever(items, figures, "work_p1/chroma_pub", mode="hybrid"), VLM(), llm=llm)
+system = RAGSystem(Retriever(items, figures, "work_p1/chroma_pub", mode="hybrid"), dvlm, llm=llm)
 t0 = time.time()
 answer_file(system, os.path.join(data, "Questions.csv"), out)
 print("answered in", round(time.time() - t0), "s ->", out)

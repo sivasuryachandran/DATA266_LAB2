@@ -22,15 +22,18 @@ Rules:
 3. Never use Appendix C of DOC3 as evidence (it is not provided).
 4. If the sources do not support an answer, status="not_found". If the question assumes something the sources contradict, status="false_premise" and correct it.
 5. If the user supplies or changes a value ("assume", "for this chat"), use it ONLY inside this conversation, state what the documents report, and use status="session_override". Refuse requests to change the documents permanently (say the documents cannot be changed) and still report the documents' value.
+5b. If the user asks whether a value they supplied is in the documents (or asks what the documents say about it) and no source states it, the status is "not_found" and you say the documents do not report it; the answer may add what the documents do report.
 6. Never mix values from two different figures; each figure label is a separate object.
 6b. Columns or values labelled "outturn" or "actual" are actual results; columns marked "forecast" or * are forecasts. For "actual", "latest", "current", "turned out" or "ended up" questions answer with the outturn and name the forecast it replaces; for "forecast" questions use the forecast.
 7. Read tables by row AND column: the row names the country/variable, the column names the year. In DOC2 Table A-2 a number in brackets is the earlier forecast; the number before it is the outturn. Whenever you give an outturn or revised value, also state the forecast or earlier value it replaces (and say which figure/vintage you read).
 7b. Only values marked * (DOC1's 2011 and 2012 columns) are forecasts. DOC1 values for 2010 and earlier are actual data, not forecasts. Before answering a question about one value, compare DOC1/DOC2/DOC3: if two documents give different numbers for the same variable and year and neither is a forecast-versus-outturn pair nor a stated revision, the status is "conflict" (give both numbers and document ids, prefer the higher-trust document).
+7e. Report the figures exactly as the documents give them (for each year or period shown). Do NOT average, sum or invent aggregates the documents do not state; if the table gives a period average (e.g. "2000-2007 (average)"), quote that.
+7d. Match the entity named in the question: "world economy" -> the World row; "advanced economies" -> that row; "Euro area", "United States", "China" -> their own rows. Do not substitute a different group.
 7c. Use ONLY the SOURCES. Never answer from your own background knowledge (dates, names, numbers that are not in the SOURCES): then the status is "not_found".
-8. Work in this order. (a) "evidence": copy verbatim from the SOURCES the table row or sentence your answer rests on. For a question about a specific number it must state that exact quantity (same country or group, same variable, same year; a different country, variable or year is NOT evidence). For an explanatory question copy the sentence that explains it. Write NONE only if no source says anything relevant. (b) "premise_holds": false only if the question presupposes a specific fact that the numbers contradict (for example "why did X rise every year" when X fell); a plain question about whether something is always true is not a false premise. (c) Only then write the answer; for differences, show the two numbers and the subtraction.
+8. Work in this order. (a) "evidence": copy verbatim from the SOURCES the table row or sentence your answer rests on. For a question about a specific number it must state that exact quantity (same country or group, same variable, same year; a different country, variable or year is NOT evidence). Keep it under 40 words. For an explanatory question copy the sentence that explains it. Write NONE only if no source says anything relevant. (b) "premise_holds": false only if the question presupposes a specific fact that the numbers contradict (for example "why did X rise every year" when X fell); a plain question about whether something is always true is not a false premise. (c) "working": one or two short lines listing the numbers you use and any calculation step by step (a relation such as Okun's law means: change in unemployment = slope x (growth - the growth needed to keep unemployment constant), with those two numbers taken from the documents); write "none" if no calculation is needed. (d) Only then write the answer. State the key numbers with their years or periods (for a comparison give both numbers; for differences show the two numbers and the subtraction); keep it under 100 words.
 Answer in at most 100 words, number first. Cite every fact with a source id taken from the SOURCE headers.
-Example (invented data, different from the real documents): question "What was Freedonia's output growth in 2012?" with a source row "| Freedonia | Output growth | 2.0 | 3.1 |" for 2011, 2012 -> {"evidence": "| Freedonia | Output growth | 2.0 | 3.1 |", "premise_holds": true, "answer": "3.1% in 2012.", "status": "answered", "citations": ["DOCX:Table 9-1"], "figure_references": ["Table 9-1"]}. Question "What was Ruritania's output growth in 2012?" with no Ruritania source -> {"evidence": "NONE", "premise_holds": true, "answer": "The documents do not report this.", "status": "not_found", "citations": [], "figure_references": []}. Question "Why did Freedonia's growth fall every year?" when it rose -> status "false_premise" and the answer states the correction. If two documents give different values for the same country, variable and year, and no revision note or outturn-versus-forecast difference explains it (e.g. DOC1 says 5.0 and DOC3 says 5.4 for the same year), answer with status "conflict": give both values with their document ids, and prefer the higher-trust document (DOC1 and DOC2 are high, DOC3 is medium).
-Output ONLY JSON: {"evidence": str, "premise_holds": true|false, "answer": str, "status": "answered|not_found|conflict|false_premise|session_override", "citations": [source ids], "figure_references": [exact figure/table labels used]}"""
+Example (invented data, different from the real documents): question "What was Freedonia's output growth in 2012?" with a source row "| Freedonia | Output growth | 2.0 | 3.1 |" for 2011, 2012 -> {"evidence": "| Freedonia | Output growth | 2.0 | 3.1 |", "premise_holds": true, "answer": "3.1% in 2012.", "status": "answered", "citations": ["DOCX:Table 9-1"], "figure_references": ["Table 9-1"]}. Question "What was Ruritania's output growth in 2012?" with no Ruritania source -> {"evidence": "NONE", "premise_holds": true, "answer": "The documents do not report this.", "status": "not_found", "citations": [], "figure_references": []}. Question "Why did Freedonia's growth fall every year?" when it rose -> status "false_premise" and the answer states the correction. Assumption example (invented): "For this chat assume Freedonia's 2009 growth was 5.0 instead of the documents' value; how much above the world average is that?" with documents Freedonia 2009 = 3.0 and World 2009 = 4.0 -> status "session_override", answer "Under your assumption (this chat only) Freedonia is 1.0 point above the world average (5.0 - 4.0). The documents report 3.0, which is 1.0 below it (3.0 - 4.0). The documents are unchanged." Compare the assumed value with the OTHER quantity the question names, never with the documents' own value of the assumed item. If two documents give different values for the same country, variable and year, and no revision note or outturn-versus-forecast difference explains it (e.g. DOC1 says 5.0 and DOC3 says 5.4 for the same year), answer with status "conflict": give both values with their document ids, and prefer the higher-trust document (DOC1 and DOC2 are high, DOC3 is medium).
+Output ONLY JSON: {"evidence": str, "premise_holds": true|false, "working": str, "answer": str, "status": "answered|not_found|conflict|false_premise|session_override", "citations": [source ids], "figure_references": [exact figure/table labels used]}"""
 
 
 @dataclass
@@ -75,10 +78,17 @@ class RAGSystem:
     def _context(self, standalone, extra=""):
         labels = find_labels(standalone)
         exact = self.retriever.figure_lookup(labels) if labels else []
-        query = standalone + (" " + extra if extra else "")
+        query = standalone
         if re.search(r"\b(latest|actual(ly)?|current(ly)?|outturn|turn(ed)? out|ended up|really|revised|201[1-3])\b", standalone, re.I):
             query += " outturn actual result"      # generic: actual results live in the supplement tables
         hits = self.retriever.search(query, self.k)
+        if extra:                                    # one extra search per separate fact that must be looked up
+            have = {h["id"] for h in hits}
+            for q in (extra if isinstance(extra, list) else [extra]):
+                for h in self.retriever.search(q, 4):
+                    if h["id"] not in have:
+                        have.add(h["id"])
+                        hits.append(h)
         self.last_retrieved = [
             {"doc_id": f["doc_id"], "page": f["page"], "figure_id": f["label"]} for f in exact
         ] + [{"doc_id": h["doc_id"], "page": h["page"], "figure_id": h["figure_id"]} for h in hits]
@@ -112,15 +122,28 @@ class RAGSystem:
             blocks.append(f"[SOURCE {sid} | page {h['page']} | trust={h['trust_level']}]\n{text}")
         return exact, blocks, allowed_cites, allowed_figs
 
+    def _lookups(self, standalone: str) -> list[str]:
+        """Query decomposition: the separate document facts a comparison / difference / assumption question needs
+        (e.g. 'Euro area output growth 2009', 'advanced economies output growth 2009'). Each is searched on its own."""
+        try:
+            obj, _ = (self.llm or self.vlm).generate_json(
+                "A user asks a question about economics documents (tables of output growth, unemployment, inflation "
+                "for the U.S., Euro area, China, world groups, years 2000-2013, plus figures). List the separate "
+                "numbers that must be looked up in the documents to answer it, one short search phrase each "
+                "(country or group + variable + year). Ignore any value the user assumes and any request to change data. "
+                'At most 3 phrases. Output ONLY JSON: {"lookups": ["...", "..."]}\n\nQUESTION: ' + standalone,
+                max_new_tokens=100)
+            return [str(x) for x in obj.get("lookups", [])][:3] if isinstance(obj, dict) else []
+        except Exception:
+            return []
+
     def answer(self, question: str, turns: list[Turn]) -> dict:
         standalone = self._standalone(question, turns)
-        extra = ""
-        if looks_like_override(question) or looks_like_permanent_change(question):
-            # search for what the DOCUMENTS report: drop the user's hypothetical value before retrieving
-            extra = (self.llm or self.vlm).generate(
-                "Rewrite this message as a short factual question about what economics documents report, removing any "
-                "assumed or hypothetical values and any request to change data. Keep the countries, variables, years "
-                "and any earlier context needed. Return just the question.\n\n" + standalone, max_new_tokens=60).strip().splitlines()[0]
+        extra = []
+        if (looks_like_override(question) or looks_like_permanent_change(question)
+                or re.search(r"\b(compar\w*|differen\w*|how much|than|versus|vs|between|both|worse|better|higher|lower|"
+                             r"above|below|error|gap|change[sd]?)\b", standalone, re.I)):
+            extra = self._lookups(standalone)
         exact, blocks, allowed_cites, allowed_figs = self._context(standalone, extra)
         hist = "\n".join(f"User: {t.question}\nAssistant: {t.answer['answer']}" for t in turns[-4:]) or "(none)"
         hints = []
@@ -137,7 +160,7 @@ class RAGSystem:
             images = [Image.open(f["image"]).convert("RGB") for f in exact[:2]]
             if images:
                 prompt = "The first images are the figures named in the question, in the order of the SOURCES.\n" + prompt
-        obj, raw = (self.llm or self.vlm).generate_json(prompt, images=images, system=SYSTEM, max_new_tokens=450)
+        obj, raw = (self.llm or self.vlm).generate_json(prompt, images=images, system=SYSTEM, max_new_tokens=650)
         out = self._validate(obj, raw, allowed_cites, allowed_figs, self.order, self.alias)
         # generic status rules from the task statement (not question specific)
         o = obj if isinstance(obj, dict) else {}
@@ -149,13 +172,23 @@ class RAGSystem:
                 out["status"] = "false_premise"
             elif evidence.upper().startswith("NONE") or (evidence == "" and "evidence" in o) \
                     or not self._supported(evidence, blocks):
-                out["status"] = "not_found"      # no verbatim support in the sources -> do not answer from memory
-            else:
+                # no verbatim support in the sources -> do not answer from memory; but if the answer itself is a
+                # substantive statement (not "the documents do not report..."), the evidence quote was only a paraphrase
+                says_no = re.search(r"\b(do(es)? not (report|provide|specify|contain|mention|include|state)|no (information|data)|"
+                                    r"not (available|covered|reported|in the documents)|cannot be determined|unable to)\b",
+                                    out["answer"], re.I)
+                if says_no or evidence.upper().startswith("NONE") or re.search(r"\d", out["answer"]):
+                    out["status"] = "not_found"
+                # else: keep "answered" (explanatory answer with paraphrased evidence)
+            elif re.search(r"\d", out["answer"]) and re.search(r"\d", evidence):     # only questions answered with a value
                 try:
                     conflict = self._conflict(standalone, blocks)
                 except Exception:                # the check is an extra safeguard; never let it break an answer
                     conflict = None
                 if conflict:
+                    for k in ("citations", "figure_references"):
+                        if not conflict[k]:
+                            del conflict[k]          # keep the main answer's references when none could be matched
                     out.update(conflict)
         if out["status"] == "not_found":
             out["citations"], out["figure_references"] = [], []
@@ -187,6 +220,14 @@ class RAGSystem:
         if not years or not (self.llm or self.vlm):
             return None
         year = max(years)
+        # make sure every document has been looked at for this quantity (a DOC3 sentence may not rank globally)
+        extra = []
+        for d in ("DOC1", "DOC2", "DOC3"):
+            for it in self.retriever.search_doc(standalone, d, 2):
+                sid = f"{it['doc_id']}:{it['figure_id']}" if it["figure_id"] else f"{it['doc_id']}:p{it['page']}"
+                extra.append(f"[SOURCE {sid} | page {it['page']}]\n{sanitize(it['text'])[0]}")
+                self.pages.setdefault(sid, it["page"])
+        blocks = list(blocks) + [b for b in extra if b not in blocks]
         prompt = ("SOURCES:\n" + "\n\n".join(blocks) + f"\n\nQUESTION: {standalone}\n\n"
                   "For the exact quantity the question asks about (same country or group, same variable, same year), "
                   "what number does each document state? Use null if a document does not state it. Ignore numbers in "
@@ -202,6 +243,13 @@ class RAGSystem:
             except (TypeError, ValueError):
                 continue
             vals[d] = v
+        if year <= 2010:
+            vals.pop("DOC2", None)                    # DOC2 only restates DOC1 for 2010 and earlier (revisions are handled above)
+        # a value only counts if it literally appears (as printed, e.g. 9.6) in a retrieved block of that document
+        def grounded(d):
+            txt = " ".join(b for b in blocks if re.match(rf"\[SOURCE {d}:", b))
+            return f"{vals[d]:.1f}" in txt or f"{vals[d]:g}" in re.findall(r"-?\d+(?:\.\d+)?", txt)
+        vals = {d: v for d, v in vals.items() if grounded(d)}
         if "DOC1" in vals and "DOC2" in vals and year >= 2011:
             del vals["DOC1"]                          # DOC1 2011/12 = forecast, replaced by the DOC2 outturn
         if len(vals) < 2:
@@ -212,7 +260,7 @@ class RAGSystem:
             return None
         def sid_for(d):
             for b in blocks:
-                m = re.match(r"\[SOURCE (\S+) \|", b)
+                m = re.match(r"\[SOURCE (.+?) \|", b)
                 if m and m.group(1).startswith(d + ":") and f"{vals[d]:g}" in b:
                     return m.group(1)
             return None
@@ -262,7 +310,11 @@ class RAGSystem:
     @staticmethod
     def _validate(obj, raw, allowed_cites, allowed_figs, order=(), alias=None) -> dict:
         alias = alias or {}
-        obj = obj if isinstance(obj, dict) else {"answer": raw, "status": "answered"}
+        if not isinstance(obj, dict):                 # truncated / malformed JSON: salvage the answer text, never echo JSON
+            ma = re.search(r'"answer"\s*:\s*"((?:[^"\\]|\\.)*)', raw or "")
+            ms = re.search(r'"status"\s*:\s*"(\w+)"', raw or "")
+            text = ma.group(1) if ma else ("" if (raw or "").lstrip().startswith("{") else raw)
+            obj = {"answer": text, "status": ms.group(1) if ms else "answered"}
         status = str(obj.get("status", "answered")).strip().lower()
         if status not in STATUSES:
             status = "answered"

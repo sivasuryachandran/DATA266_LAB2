@@ -1,0 +1,5 @@
+final {'correct_out_of_25': 21, 'n': 25, 'recall@5': 0.957, 'citation_accuracy': np.float64(0.793), 'median_sec_per_question': 4.08}
+  WRONG G05 [fact_table] status not_found (gold answered) | pred: The documents do not report China's inflation rate for 2011. | cites [] figs [] | gold: 7.8% outturn in 2011 (Table A-2), replacing the 5.5% forecast.
+  WRONG G10 [figure_near_identical] status answered (gold answered) | pred: The fitted line in Figure B-2 covers the sample period from 1961 to 2013. | cites ['DOC3:Table B-1'] figs ['Figure B-2'] | gold: United States, 1961-2013.
+  WRONG G22 [conflict_revision] status answered (gold answered) | pred: World output growth in 2011 was 3.0%, replacing the forecast of 3.0%. | cites ['DOC1:Table 1-1'] figs ['Table 1-1'] | gold: 2.8% outturn, replacing the 3.0% fall-2011 forecast.
+  WRONG G23 [unanswerable] status answered (gold not_found) | pred: Japan's output growth in 2012 was under 1% per year. | cites ['DOC1:p12'] figs [] | gold: Not covered by the documents.

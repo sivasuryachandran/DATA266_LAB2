@@ -8,7 +8,7 @@ LABEL_RE = re.compile(
     r"(?P<corr>\s*\((?i:corrected|revised|updated)\))?")
 _CAPTION_VERBS = re.compile(
     r"^\s*(shows?|illustrates?|presents?|displays?|reports?|plots?|compares?|depicts?|"
-    r"is|are|was|were|summari[sz]es|gives?|indicates?|suggests?|above|below|and|also)\b", re.I)
+    r"is|are|was|were|summari[sz]es|gives?|sets?|extends?|reproduces?|uses?|follows?|confirms?|indicates?|suggests?|above|below|and|also)\b", re.I)
 
 
 def make_label(kind: str, num: str, corrected: bool = False) -> str:

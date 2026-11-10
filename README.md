@@ -1,7 +1,9 @@
 # DATA 266 Lab 2 - Pair_Programming_Team_##
 Part 1 multimodal RAG (Kaggle) · Part 2 LoRA fine-tuning of Stable Diffusion 1.5 · Part 3 multimodal multi-agent system.
 Everything runs on one 16 GB GPU (Kaggle T4/P100 or Colab T4). Models are open weights only; **no hosted API is used**:
-Qwen/Qwen2.5-VL-3B-Instruct (VLM/LLM, Parts 1 and 3), BAAI/bge-small-en-v1.5 (embeddings), stable-diffusion-v1-5/stable-diffusion-v1-5,
+Part 1: unsloth/Qwen2.5-VL-7B-Instruct-bnb-4bit (reads figures at ingestion; falls back to Qwen/Qwen2.5-VL-3B-Instruct) and
+unsloth/Qwen2.5-14B-Instruct-bnb-4bit (answers; pre-quantised 4-bit copy of Qwen/Qwen2.5-14B-Instruct, ~9.5 GB, loaded after the VLM is unloaded so both fit a T4);
+Part 3: Qwen/Qwen2.5-VL-3B-Instruct; BAAI/bge-small-en-v1.5 (embeddings), stable-diffusion-v1-5/stable-diffusion-v1-5,
 timbrooks/instruct-pix2pix, openai/clip-vit-base-patch32, lpips (alex). Optional bonus reranker: BAAI/bge-reranker-base.
 
 ## Layout
@@ -41,3 +43,9 @@ No number in the report may be typed by hand: copy them from executed notebook o
 `golden_set.json` + `prompts.json` + `p3_agents/scenarios.py` committed before tuning/running · notebooks executed with outputs ·
 tags `p1-v1.0` `p2-v1.0` `p3-v1.0` · HF models/dataset/model card · IEEE report (<=12 pages/part, diagrams, results tables, C4 safety, system card) ·
 `CONTRIBUTIONS.md` · `AI_USAGE.md` · `links.txt` · zip `Pair_Programming_Team_##.zip`.
+
+## Part 1 - changes since the first run (see git log)
+* Models/env: `P1_VLM` (figure reader, default Qwen2.5-VL-7B 4-bit), `P1_LLM` (answerer, default Qwen2.5-14B-Instruct 4-bit, `none` = VLM answers), `LLM_QUANT` (`4bit`/`none`). Descriptions are cached per model in `work_p1/descriptions_<model>.json` (delete to re-describe).
+* Tables are indexed whole and row by row (outturn vs forecast spelled out); table numbers are removed from plain-text chunks; retrieval is hybrid (dense + BM25, RRF) with one best hit per document; answers must quote verbatim evidence from the sources, otherwise status `not_found`; a second pass flags DOC1/DOC3 or DOC2/DOC3 disagreements as `conflict`.
+* Citations name a figure/table by label and page (`DOC2:Figure A-3,DOC2:p4`), as in `sample_submission.csv`.
+* The golden set was used while developing; for the report keep these numbers separate from any fresh held-out questions.

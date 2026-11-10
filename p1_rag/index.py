@@ -21,10 +21,10 @@ class Retriever:
         os.makedirs(persist_dir, exist_ok=True)
         client = chromadb.PersistentClient(path=persist_dir)
         try:
-            client.delete_collection("kb")
+            client.delete_collection("kb_main")
         except Exception:
             pass
-        self.col = client.create_collection("kb", metadata={"hnsw:space": "cosine"})
+        self.col = client.create_collection("kb_main", metadata={"hnsw:space": "cosine"})
         ids = [i["id"] for i in items]
         for s in range(0, len(items), 128):
             batch = items[s:s + 128]
@@ -60,6 +60,14 @@ class Retriever:
                 sc = self.reranker.predict([(query, self.items[i]["text"]) for i in ids])
                 ids = [i for _, i in sorted(zip(sc, ids), key=lambda x: -x[0])]
             ids = ids[:k]
+            # document-diverse: make sure every trusted document contributes its best hit, so questions that
+            # need an actual result (DOC2), a re-estimate (DOC3) or the original forecast (DOC1) see them all
+            have = {self.items[i]["doc_id"] for i in ids}
+            for i, _ in fused:
+                d = self.items[i]["doc_id"]
+                if d not in have and not self.items[i]["untrusted"]:
+                    ids.append(i)
+                    have.add(d)
         return [self.items[i] for i in ids]
 
     def figure_lookup(self, labels: list[str]) -> list[dict]:

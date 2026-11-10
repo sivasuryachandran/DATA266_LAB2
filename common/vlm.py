@@ -97,3 +97,43 @@ class VLM:
                 return obj, raw
             prompt = prompt + "\n\nReturn ONLY a valid JSON object, nothing else."
         return None, raw
+
+
+class TextLLM:
+    """Text-only answerer (Qwen2.5-7B-Instruct by default). 4-bit NF4 so it fits a 16 GB T4 next to the VLM;
+    set LLM_QUANT=none for bf16 on bigger GPUs. Same generate/generate_json interface as VLM (images ignored)."""
+
+    def __init__(self, model_id: str = "Qwen/Qwen2.5-7B-Instruct", quant: str | None = None):
+        import os
+        self.model_id = model_id
+        self.quant = quant or os.environ.get("LLM_QUANT", "4bit")
+        self.model = None
+        self.tok = None
+
+    def _load(self):
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        kw = {}
+        if self.quant == "4bit" and "bnb-4bit" in self.model_id:
+            pass                                   # pre-quantised checkpoint: config ships with the weights
+        elif self.quant == "4bit":
+            from transformers import BitsAndBytesConfig
+            kw["quantization_config"] = BitsAndBytesConfig(
+                load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16)
+        else:
+            kw["torch_dtype"] = torch.bfloat16
+        self.tok = AutoTokenizer.from_pretrained(self.model_id)
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_id, device_map="cuda", **kw).eval()
+
+    def generate(self, prompt, images=None, system=None, max_new_tokens=256):
+        import torch
+        if self.model is None:
+            self._load()
+        msgs = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
+        ids = self.tok.apply_chat_template(msgs, add_generation_prompt=True, return_tensors="pt").to(self.model.device)
+        with torch.inference_mode():
+            out = self.model.generate(ids, attention_mask=torch.ones_like(ids), max_new_tokens=max_new_tokens,
+                                      do_sample=False, pad_token_id=self.tok.eos_token_id)
+        return self.tok.decode(out[0, ids.shape[1]:], skip_special_tokens=True).strip()
+
+    generate_json = VLM.generate_json

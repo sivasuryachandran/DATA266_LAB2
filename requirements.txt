@@ -1,5 +1,5 @@
-# Pins chosen for Python 3.10-3.12 on Kaggle/Colab (torch/torchvision come preinstalled there; 2.4-2.6 tested-range).
-# NOT yet verified on a GPU runtime: run `pip install -r requirements.txt` and fix any pin that conflicts, then freeze.
+# Verified on Windows 11 / Python 3.12.10 / RTX 5090 with torch 2.11.0+cu128 (pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128).
+# On Kaggle/Colab torch/torchvision are preinstalled; the pins below were the set used for the executed notebooks.
 transformers==4.49.0
 diffusers==0.32.2
 peft==0.14.0
@@ -7,16 +7,18 @@ accelerate==1.3.0
 huggingface_hub==0.28.1
 datasets==3.2.0
 sentence-transformers==3.4.1
-chromadb==0.6.3
+chromadb==1.5.9
 rank-bm25==0.2.2
 pymupdf==1.25.3
+bitsandbytes==0.50.2          # 4-bit Qwen2.5 models in Part 1
 torchmetrics[image]==1.6.1
 torch-fidelity==0.3.0
 lpips==0.1.4
 open_clip_torch==2.30.0
 gradio==5.15.0
+langgraph==1.2.20
 scikit-image==0.25.0
 pandas==2.2.3
-numpy==1.26.4
-pillow==11.1.0
+numpy==2.2.6
+pillow==11.3.0
 matplotlib==3.9.4

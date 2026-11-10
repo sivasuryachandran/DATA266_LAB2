@@ -16,3 +16,14 @@ work_p2/
 work_p3/
 DATA266_Lab2_Part1/
 *.pdf
+
+private_eval/
+submission*.csv
+dev*.log
+dev*.err
+p1.log
+p1.err
+p2.log
+p2.err
+p3.log
+p3.err

@@ -1,4 +1,4 @@
-"""Regenerates notebooks/*.ipynb (unexecuted). Run them with Restart & Run All, save outputs, then commit."""
+﻿"""Regenerates notebooks/*.ipynb (unexecuted). Run them with Restart & Run All, save outputs, then commit."""
 import json
 import os
 
@@ -52,7 +52,7 @@ G = golden.load("golden_set.json")
 print("coverage problems:", golden.check_coverage(G) or "none", "| n =", len(G))'''),
  ("code", '''# baseline = dense retrieval only, no follow-up rewriting; final = hybrid + conversation handling
 baseline = RAGSystem(Retriever(items, figures, "work_p1/chroma_dense", mode="dense", embedder=final.retriever.embedder),
-                     final.vlm, conversation=False)
+                     final.vlm, conversation=False, llm=final.llm)   # same answering model; only retrieval/conversation differ
 rows = {}
 for name, system in [("baseline", baseline), ("final", final)]:
     recs = golden.run_golden(system, G)
@@ -96,9 +96,9 @@ info1 = train("lora_r4", 4, "work_p2/data")
 info2 = train("lora_r32", 32, "work_p2/data")
 pd.DataFrame([info1, info2]).set_index("run")[["rank", "trainable_params", "learning_rate", "steps", "batch_size", "peak_gpu_mem_gb", "train_seconds", "gpu_hours"]]'''),
  ("code", '''# push to Hugging Face (needs HF_TOKEN in the environment; set repo ids first)
-# from p2_finetune.hf_upload import push_adapter
-# push_adapter("work_p2/runs/lora_r4",  "<user>/sd15-naruto-lora-r4")
-# push_adapter("work_p2/runs/lora_r32", "<user>/sd15-naruto-lora-r32", results_text="see report")'''),
+from p2_finetune.hf_upload import push_adapter
+push_adapter("work_p2/runs/lora_r4",  "sivasuryachandran/sd15-naruto-lora-r4")
+push_adapter("work_p2/runs/lora_r32", "sivasuryachandran/sd15-naruto-lora-r32", results_text="see report")'''),
  ("markdown", "## 2.3 Generation: 20 prompts x 2 seeds x 3 models = 120 images"),
  ("code", '''from p2_finetune.generate import generate_all, SETTINGS
 print(SETTINGS)
@@ -114,11 +114,11 @@ for r, p in enumerate(sel):
         ax[r, c].set_title(f"{m}: {p['prompt'][:34]}", fontsize=6)
 plt.tight_layout(); plt.savefig("p2_grid.png", dpi=120); plt.show()'''),
  ("code", '''# upload to a Hugging Face dataset (prompt, seed, model in metadata)
-# from p2_finetune.hf_upload import push_images; push_images(META, "<user>/sd15-naruto-lora-generations")'''),
+from p2_finetune.hf_upload import push_images; push_images(META, "sivasuryachandran/sd15-naruto-lora-generations")'''),
  ("markdown", "## 2.4 Evaluation: KID + CLIP (primary), LPIPS diversity (secondary), efficiency"),
  ("code", '''from p2_finetune import evaluate as E
 clip = E.Clip()
-test_paths = [p for p, _ in test]; train_paths = [p for p, _ in train]
+test_paths = [p for p, _ in test]; train_paths = [p for p, _ in data_prep.read_split("work_p2/data", "train")]
 res = pd.DataFrame([E.summarize_model(clip, META, m, test_paths) for m in ["base", "run1", "run2"]]).set_index("model")
 res["gpu_hours"] = [None, info1["gpu_hours"], info2["gpu_hours"]]
 res["peak_gpu_mem_gb"] = [None, info1["peak_gpu_mem_gb"], info2["peak_gpu_mem_gb"]]
@@ -151,7 +151,7 @@ plt.savefig("p2_memorization.png", dpi=120); plt.show()'''),
 P3 = [
  ("markdown", "# Part 3 - Multimodal multi-agent system\nPlanner -> Vision -> Prompt Engineering -> Image Generation (SD1.5 img2img / InstructPix2Pix / Part 2 LoRA) -> Critique -> accept | revise (max 2)."),
  ("code", CELL1), ("code", SETUP),
- ("code", '''os.environ.setdefault("P3_LORA", "<user>/sd15-naruto-lora-r4")   # Part 2 adapter on Hugging Face (or local path work_p2/runs/lora_r4)
+ ("code", '''os.environ.setdefault("P3_LORA", "sivasuryachandran/sd15-naruto-lora-r4")   # Part 2 adapter on Hugging Face (or local path work_p2/runs/lora_r4)
 from common.vlm import VLM
 from p3_agents.models import Hub
 from p3_agents.assets import make_assets

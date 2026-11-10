@@ -11,6 +11,8 @@ import json
 import statistics
 from collections import Counter
 
+import pandas as pd
+
 
 from p1_rag.text_utils import numbers_match
 

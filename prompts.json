@@ -1,0 +1,102 @@
+[
+ {
+  "id": "in00",
+  "type": "in_domain",
+  "prompt": "a dog in a blue shirt and white pants"
+ },
+ {
+  "id": "in01",
+  "type": "in_domain",
+  "prompt": "a person in a room with green walls"
+ },
+ {
+  "id": "in02",
+  "type": "in_domain",
+  "prompt": "a woman with long black hair and blue eyes"
+ },
+ {
+  "id": "in03",
+  "type": "in_domain",
+  "prompt": "a woman with glasses and a red shirt"
+ },
+ {
+  "id": "in04",
+  "type": "in_domain",
+  "prompt": "a girl with long blonde hair and blue eyes"
+ },
+ {
+  "id": "in05",
+  "type": "in_domain",
+  "prompt": "a man with glasses and a hat on"
+ },
+ {
+  "id": "in06",
+  "type": "in_domain",
+  "prompt": "a young boy in a purple shirt and black pants"
+ },
+ {
+  "id": "in07",
+  "type": "in_domain",
+  "prompt": "a man in a fire with his hands clasped"
+ },
+ {
+  "id": "in08",
+  "type": "in_domain",
+  "prompt": "a person wearing a hoodie and looking at the camera"
+ },
+ {
+  "id": "in09",
+  "type": "in_domain",
+  "prompt": "a man with black hair and a brown vest"
+ },
+ {
+  "id": "ood00",
+  "type": "out_of_domain",
+  "prompt": "a photograph of a red sports car on a coastal highway at sunset"
+ },
+ {
+  "id": "ood01",
+  "type": "out_of_domain",
+  "prompt": "a bowl of fresh fruit on a wooden table, studio lighting"
+ },
+ {
+  "id": "ood02",
+  "type": "out_of_domain",
+  "prompt": "a snowy mountain village at night, realistic photo"
+ },
+ {
+  "id": "ood03",
+  "type": "out_of_domain",
+  "prompt": "a golden retriever puppy sitting on a green lawn"
+ },
+ {
+  "id": "ood04",
+  "type": "out_of_domain",
+  "prompt": "a modern glass skyscraper reflecting the clouds"
+ },
+ {
+  "id": "comp00",
+  "type": "compositional",
+  "prompt": "two cartoon characters, one in a red outfit and one in a blue outfit, standing side by side"
+ },
+ {
+  "id": "comp01",
+  "type": "compositional",
+  "prompt": "a cartoon character holding a green umbrella while a smaller character sits on a yellow chair"
+ },
+ {
+  "id": "comp02",
+  "type": "compositional",
+  "prompt": "three characters in a row: the left one in orange, the middle one in purple, the right one in white"
+ },
+ {
+  "id": "comp03",
+  "type": "compositional",
+  "prompt": "a character with blue hair next to a character with red hair, in front of a large tree"
+ },
+ {
+  "id": "comp04",
+  "type": "compositional",
+  "prompt": "a character on the left looking at a character on the right, who is holding a sword"
+ }
+]

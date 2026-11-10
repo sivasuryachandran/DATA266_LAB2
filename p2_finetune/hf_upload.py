@@ -1,4 +1,4 @@
-"""Push adapters, model card and the image dataset to Hugging Face (token from env HF_TOKEN; never committed)."""
+﻿"""Push adapters, model card and the image dataset to Hugging Face (token from env HF_TOKEN; never committed)."""
 import json
 import os
 
@@ -30,7 +30,7 @@ the SD safety checker is kept on but is not a guarantee. Inherits the CreativeML
 def push_adapter(run_dir, repo_id, results_text="", dataset="lambdalabs/naruto-blip-captions", dataset_license="CC BY-NC-SA 4.0"):
     from huggingface_hub import HfApi
     api = HfApi(token=os.environ["HF_TOKEN"])
-    api.create_repo(repo_id, exist_ok=True)
+    api.create_repo(repo_id, exist_ok=True, private=True)
     info = json.load(open(os.path.join(run_dir, "train_info.json")))
     info.update(dataset=dataset, dataset_license=dataset_license, results=results_text, name=repo_id.split("/")[-1])
     open(os.path.join(run_dir, "README.md"), "w").write(MODEL_CARD.format(**info))
@@ -41,4 +41,4 @@ def push_images(meta, repo_id):
     from datasets import Dataset, Image
     ds = Dataset.from_list([{"image": m["file"], "prompt": m["prompt"], "seed": m["seed"], "model": m["model"],
                              "prompt_type": m["type"]} for m in meta]).cast_column("image", Image())
-    ds.push_to_hub(repo_id, token=os.environ["HF_TOKEN"], private=False)
+    ds.push_to_hub(repo_id, token=os.environ["HF_TOKEN"], private=True)

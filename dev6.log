@@ -1,0 +1,6 @@
+final {'correct_out_of_25': 20, 'n': 25, 'recall@5': 0.913, 'citation_accuracy': np.float64(0.733), 'median_sec_per_question': 3.41}
+  WRONG G05 [fact_table] status not_found (gold answered) | pred: The documents do not report China's inflation rate in 2011. | cites [] figs [] | gold: 7.8% outturn in 2011 (Table A-2), replacing the 5.5% forecast.
+  WRONG G10 [figure_near_identical] status answered (gold answered) | pred: The fitted line in Figure B-2 covers the sample period 1961-2013. | cites ['DOC3:Table B-1'] figs ['Figure B-2'] | gold: United States, 1961-2013.
+  WRONG G17 [multi_turn] status answered (gold answered) | pred: The documents report the U.S. unemployment rate in 2012 as 1.8%. | cites ['DOC1:Figure 2-3', 'DOC1:p4'] figs [] | gold: The documents report 8.1% for the U.S. in 2012; the 7.0% assumption is not in them.
+  WRONG G20 [conflict_revision] status answered (gold answered) | pred: The current value of U.S. output growth for 2010, after the benchmark revision, is 2.4%. | cites ['DOC1:p5'] figs [] | gold: 2.4% (DOC2 revision notice), replacing the 3.0% in DOC1 Table 1-2.
+  WRONG G22 [conflict_revision] status answered (gold answered) | pred: World output growth in 2011 was 3.0%, replacing the forecast of 3.2%. | cites ['DOC2:Table A-1'] figs ['Table A-1'] | gold: 2.8% outturn, replacing the 3.0% fall-2011 forecast.

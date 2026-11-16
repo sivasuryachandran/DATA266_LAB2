@@ -1,0 +1,86 @@
+{
+ "request": "Create a cartoon character with long red hair holding a sword.",
+ "image": null,
+ "route": "domain_generate",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/4dbbc3a6.png",
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 5.93,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Create a cartoon character with long red hair holding a sword.",
+    "has_image": false
+   },
+   "output": {
+    "route": "domain_generate",
+    "llm": {
+     "route": "domain_generate",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": true
+   },
+   "seconds": 1.1
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "domain_generate",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "a cartoon character with long red hair holding a sword",
+    "negative_prompt": "blurry, low quality, deformed",
+    "target_caption": "a cartoon character with long red hair holding a sword"
+   },
+   "seconds": 1.99
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "a cartoon character with long red hair holding a sword",
+     "negative_prompt": "blurry, low quality, deformed",
+     "target_caption": "a cartoon character with long red hair holding a sword"
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "SD1.5 + Part2 LoRA (txt2img)",
+    "prompt": "a cartoon character with long red hair holding a sword",
+    "seed": 0,
+    "steps": 30,
+    "file": "work_p3/outputs/4dbbc3a6.png",
+    "nsfw_flag": false
+   },
+   "seconds": 1.44
+  },
+  {
+   "agent": "Critique",
+   "input": {
+    "prompt": "a cartoon character with long red hair holding a sword"
+   },
+   "output": {
+    "clip_score": 35.59,
+    "vlm": {
+     "matches_request": true,
+     "quality": 4,
+     "safe": true,
+     "issues": "",
+     "revision_instruction": ""
+    },
+    "safe": true,
+    "decision": "accept"
+   },
+   "seconds": 1.4
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "request": "Make it better.",
+ "image": "work_p3/assets/scene.png",
+ "route": "ambiguous",
+ "refused": false,
+ "message": "What would you like me to change or improve? For example a style (watercolor) or a specific edit.",
+ "error": "",
+ "answer": "",
+ "output": null,
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 5.78,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Make it better.",
+    "has_image": true
+   },
+   "output": {
+    "route": "ambiguous",
+    "llm": {
+     "route": "caption_qa",
+     "ambiguous_question": "What would you like me to change or improve? For example a style (watercolor) or a specific edit.",
+     "unsafe": false,
+     "domain_style": true
+    }
+   },
+   "seconds": 5.77
+  }
+ ]
+}

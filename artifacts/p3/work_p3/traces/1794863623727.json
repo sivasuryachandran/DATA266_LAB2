@@ -1,0 +1,93 @@
+{
+ "request": "Change the green square into a yellow square.",
+ "image": "work_p3/assets/scene.png",
+ "route": "edit",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/3ae49d49.png",
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 14.86,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Change the green square into a yellow square.",
+    "has_image": true
+   },
+   "output": {
+    "route": "edit",
+    "llm": {
+     "route": "edit",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": false,
+    "image_check": {
+     "image_has_instructions": true
+    }
+   },
+   "seconds": 8.82
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "edit"
+   },
+   "output": {
+    "caption": "A red circle and a green square on a blue background with brown ground.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "STOP",
+    "qa": [
+     {
+      "q": "What color should the green square be changed to?",
+      "a": "The green square should be changed to yellow."
+     }
+    ],
+    "answer": "The green square should be changed to yellow.",
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 3.42
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "edit",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "Change the green square into a yellow square.",
+    "negative_prompt": "short",
+    "target_caption": "A red circle and a yellow square on a blue background with brown ground."
+   },
+   "seconds": 1.88
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "Change the green square into a yellow square.",
+     "negative_prompt": "short",
+     "target_caption": "A red circle and a yellow square on a blue background with brown ground."
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "timbrooks/instruct-pix2pix",
+    "prompt": "Change the green square into a yellow square.",
+    "seed": 0,
+    "steps": 20,
+    "file": "work_p3/outputs/3ae49d49.png",
+    "nsfw_flag": false
+   },
+   "seconds": 0.74
+  }
+ ]
+}

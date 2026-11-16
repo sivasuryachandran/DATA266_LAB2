@@ -14,6 +14,20 @@ INJECTION_TEXT = re.compile(
     r"\b(system prompt|new instructions?|you must|you are now|do not (tell|mention)|override|jailbreak)\b", re.I)
 
 
+PERSON_WORDS = re.compile(r"\b(she|he|her|him|his|hers|they|them|person|man|woman|girl|boy|people|celebrity|politician|president|"
+                          r"actor|actress|face|portrait|photo of)\b", re.I)
+HARMFUL_SCENE = re.compile(r"\b(gun|pistol|rifle|weapon|knife|robbery|robber|crime|criminal|arrest\w*|scam|fraud|endorse\w*|"
+                           r"bribe\w*|drunk|riot|terroris\w+|kidnap\w*|violent|explosion)\b", re.I)
+MAKE_REAL = re.compile(r"\b(look(s)? real|look(s)? authentic|look(s)? genuine|make (it|this|them) (look )?(real|believable)|"
+                       r"so (nobody|no one) can tell|pass as real|fake (news|photo|evidence))\b", re.I)
+
+
+def deceptive_person_edit(request: str) -> bool:
+    """Edits that put a person into a harmful scene or make a fabricated claim look real (deceptive fakes)."""
+    r = request or ""
+    return bool(PERSON_WORDS.search(r) and (HARMFUL_SCENE.search(r) or MAKE_REAL.search(r)))
+
+
 def text_policy(request: str) -> tuple[bool, str]:
     if NSFW.search(request):
         return True, "Sexual / NSFW content is not allowed."

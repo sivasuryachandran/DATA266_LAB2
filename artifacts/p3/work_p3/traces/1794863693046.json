@@ -1,0 +1,14 @@
+{
+ "request": "Describe this image.",
+ "image": "work_p3/assets/empty.png",
+ "route": "",
+ "refused": false,
+ "message": "The uploaded file is missing or empty.",
+ "error": "input_image_invalid",
+ "answer": "",
+ "output": null,
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 0.0,
+ "steps": []
+}

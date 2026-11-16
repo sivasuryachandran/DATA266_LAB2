@@ -1,0 +1,97 @@
+{
+ "request": "Turn this into a watercolor painting.",
+ "image": "work_p3/assets/scene.png",
+ "route": "style_change",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/6f08c59f.png",
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 21.59,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Turn this into a watercolor painting.",
+    "has_image": true
+   },
+   "output": {
+    "route": "style_change",
+    "llm": {
+     "route": "style_change",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": false,
+    "image_check": {
+     "image_has_instructions": true
+    }
+   },
+   "seconds": 14.25
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "style_change"
+   },
+   "output": {
+    "caption": "A serene landscape with a red circle and a green square against a blue sky.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "",
+    "qa": [
+     {
+      "q": "What colors are present in the image?",
+      "a": "The image contains red, green, blue, and brown."
+     },
+     {
+      "q": "Is there any text in the image?",
+      "a": "No, there is no text in the image."
+     }
+    ],
+    "answer": "",
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 4.18
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "style_change",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "A serene landscape with a red circle and a green square against a blue sky, rendered in a beautiful watercolor style.",
+    "negative_prompt": "short",
+    "target_caption": "A tranquil scene featuring a red circle and a green square set against a vibrant blue sky, beautifully captured in watercolor."
+   },
+   "seconds": 2.43
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "A serene landscape with a red circle and a green square against a blue sky, rendered in a beautiful watercolor style.",
+     "negative_prompt": "short",
+     "target_caption": "A tranquil scene featuring a red circle and a green square set against a vibrant blue sky, beautifully captured in watercolor."
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "SD1.5 (img2img, strength 0.6)",
+    "prompt": "A serene landscape with a red circle and a green square against a blue sky, rendered in a beautiful watercolor style.",
+    "seed": 0,
+    "steps": 30,
+    "file": "work_p3/outputs/6f08c59f.png",
+    "nsfw_flag": false
+   },
+   "seconds": 0.72
+  }
+ ]
+}

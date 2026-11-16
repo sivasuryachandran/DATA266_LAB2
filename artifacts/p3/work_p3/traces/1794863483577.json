@@ -1,0 +1,86 @@
+{
+ "request": "Draw a ninja character with spiky hair standing on a rooftop.",
+ "image": null,
+ "route": "domain_generate",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/e833030d.png",
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 8.81,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Draw a ninja character with spiky hair standing on a rooftop.",
+    "has_image": false
+   },
+   "output": {
+    "route": "domain_generate",
+    "llm": {
+     "route": "domain_generate",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": true
+   },
+   "seconds": 1.1
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "domain_generate",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "ninja character with spiky hair standing on a rooftop",
+    "negative_prompt": "blurry, low quality, deformed",
+    "target_caption": "a ninja character with spiky hair standing on a rooftop"
+   },
+   "seconds": 2.14
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "ninja character with spiky hair standing on a rooftop",
+     "negative_prompt": "blurry, low quality, deformed",
+     "target_caption": "a ninja character with spiky hair standing on a rooftop"
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "SD1.5 + Part2 LoRA (txt2img)",
+    "prompt": "ninja character with spiky hair standing on a rooftop",
+    "seed": 0,
+    "steps": 30,
+    "file": "work_p3/outputs/e833030d.png",
+    "nsfw_flag": false
+   },
+   "seconds": 4.17
+  },
+  {
+   "agent": "Critique",
+   "input": {
+    "prompt": "a ninja character with spiky hair standing on a rooftop"
+   },
+   "output": {
+    "clip_score": 31.54,
+    "vlm": {
+     "matches_request": true,
+     "quality": 4,
+     "safe": true,
+     "issues": "",
+     "revision_instruction": ""
+    },
+    "safe": true,
+    "decision": "accept"
+   },
+   "seconds": 1.4
+  }
+ ]
+}

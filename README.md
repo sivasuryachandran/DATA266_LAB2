@@ -34,10 +34,12 @@ python -m unittest tests.test_logic          # sanity check, no GPU needed
 * **P3**: plain-Python orchestration over one typed `State`; one diffusion pipeline resident at a time (VLM stays loaded); JSON trace per request in `work_p3/traces/`.
 
 ## Status of this repository
-Written without access to the Part 1 data files or a GPU: the logic tests pass, but the model-dependent code
-(ingestion on the real PDFs, training, generation, agents) has **not been executed yet**. Expect to tune figure
-cropping in `ingest.py`, the CLIP accept threshold in `p3_agents/agents.py`, and pins in `requirements.txt` on the first GPU run.
-No number in the report may be typed by hand: copy them from executed notebook outputs.
+All three parts have been run on a GPU and their notebooks carry executed outputs.
+* **Part 1** - `notebooks/p1_rag.ipynb` (final pipeline; Qwen2.5-VL-7B 4-bit reads figures, Qwen2.5-14B-Instruct 4-bit answers; both fit a 16 GB GPU). Kaggle public score of this pipeline: 0.821.
+* **Part 2** - `notebooks/p2_finetune.ipynb` (RTX 5090 run). Blind human evaluation: `human_eval_p2/` (3 raters; `tools/make_rating_page.py` builds the rating page).
+* **Part 3** - `notebooks/p3_agents.ipynb` (RTX 4090 run with a rank-4 adapter re-trained with the same code and settings as Part 2, since the Hugging Face copy is private). Earlier runs are kept in `notebooks/history/`. Traces and sample outputs: `artifacts/p3/`. Human judging: `human_eval_p3/` (`tools/make_p3_judge_page.py`).
+* The Part 3 planner rules and guardrails were changed after a first run on the 15 scenarios and 10 red-team cases (10/15 and 2/10 attacks before; see `notebooks/history/`), so the final Part 3 numbers are optimistic and are reported with that caveat.
+* Numbers in the report must be copied from executed notebook outputs, never typed by hand.
 
 ## Deliverables checklist
 `golden_set.json` + `prompts.json` + `p3_agents/scenarios.py` committed before tuning/running · notebooks executed with outputs ·

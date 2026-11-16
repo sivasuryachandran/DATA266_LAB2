@@ -36,6 +36,11 @@ JSON: {{"route": "...", "ambiguous_question": "what to ask the user, or empty", 
 unsafe = sexual content, graphic violence, hate, or deceptive/defamatory fakes of real people.""")
     obj = obj or {}
     route = obj.get("route") if obj.get("route") in ROUTES else _rule_route(req, s.image is not None)
+    forced = _strong_rule(req, s.image is not None)
+    if forced and route in ("caption_qa", "style_change", "edit", "domain_generate", "ambiguous"):
+        route = forced
+        if forced == "ambiguous" and not obj.get("ambiguous_question"):
+            obj["ambiguous_question"] = "What would you like me to change or improve? For example a style (watercolor) or a specific edit."
     s.planner = {"route": route, "llm": obj}
     if obj.get("unsafe") in (True, "true"):
         s.refused, s.route, s.message = True, "unsupported", f"Refused: {obj.get('unsafe_reason') or 'unsafe request'}"
@@ -50,6 +55,9 @@ unsafe = sexual content, graphic violence, hate, or deceptive/defamatory fakes o
         s.route, s.message = route, "This assistant only handles image captioning, questions, style changes, edits and character-style generation."
         return
     s.route = route
+    if s.image is not None and route in ("edit", "style_change") and safety.deceptive_person_edit(req):
+        s.refused, s.message = True, "Refused: this would edit a person into a harmful scene or make a fabricated claim look real."
+        return
     s.planner["domain_style"] = bool(obj.get("domain_style")) or route == "domain_generate"
     # image-side input checks (real people, instructions hidden in the image) for requests that modify an image
     if s.image is not None and route in ("edit", "style_change"):
@@ -63,6 +71,35 @@ in a way that could mislead, e.g. placing them somewhere or making them do somet
         s.planner["image_check"] = chk
         if chk.get("real_person_photo") in (True, "true") and chk.get("alters_person") in (True, "true"):
             s.refused, s.message = True, "Refused: this would edit a photo of a real person in a way that could be deceptive."
+
+
+_STYLE = re.compile(r"\b(style|painting|painted|watercolou?r|sketch|pencil|oil|cartoon|anime|impressionis\w*|pixel art|"
+                    r"comic|charcoal|ink drawing|illustration|render(ed)? as)\b", re.I)
+_VAGUE = re.compile(r"^\s*(please\s+)?(make|do|fix|improve|enhance|change|edit)\s+(it|this|that|the image|the picture|the photo)"
+                    r"(\s+(better|nicer|good|great|cool|pretty|different|awesome))?\s*[.!?]*\s*$|"
+                    r"^\s*(improve|fix|enhance|edit|change|do something( with)?( it| this)?)\s*[.!?]*\s*$", re.I)
+_TARGETED_CMD = re.compile(r"^\s*(please\s+)?(make|turn|change|replace|add|remove|delete|swap|paint|recolou?r)\b", re.I)
+_TARGETED = re.compile(r"\b(make|turn|change|replace|add|remove|delete|swap|paint|recolou?r)\b[^.?!]{0,60}"
+                       r"\b(the|a|an|her|his|their|its)\b", re.I)
+
+
+_QUESTION = re.compile(r"^\s*(what|which|who|whom|whose|how many|how much|how|where|when|why|is|are|does|do|can|could|"
+                       r"tell me|describe|caption|list|read)\b", re.I)
+
+
+def _strong_rule(req, has_image):
+    """High-precision routing rules that override the LLM's label (generic phrasing, not specific requests)."""
+    if has_image and (_QUESTION.search(req) or req.strip().endswith("?")) and not _TARGETED_CMD.search(req):
+        return "caption_qa"
+    if has_image and _VAGUE.search(req):
+        return "ambiguous"
+    if has_image and _STYLE.search(req):
+        return "style_change"
+    if has_image and _TARGETED.search(req):
+        return "edit"
+    if not has_image and re.search(r"\b(draw|generate|create|paint|make|design)\b", req, re.I):
+        return "domain_generate"
+    return None
 
 
 def _rule_route(req, has_image):

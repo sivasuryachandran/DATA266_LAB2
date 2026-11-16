@@ -1,0 +1,26 @@
+pair,prompt,better_domain_style(L/R),better_prompt_match(L/R)
+0,"three characters in a row: the left one in orange, the middle one in purple, the right one in white",R,R
+1,"a snowy mountain village at night, realistic photo",L,R
+2,"a character with blue hair next to a character with red hair, in front of a large tree",L,R
+3,"a man with black hair and a brown vest",L,R
+4,"a person in a room with green walls",L,L
+5,"a man in a fire with his hands clasped",L,R
+6,"a person wearing a hoodie and looking at the camera",R,R
+7,"a cartoon character holding a green umbrella while a smaller character sits on a yellow chair",R,R
+8,"a golden retriever puppy sitting on a green lawn",R,R
+9,"a cartoon character holding a green umbrella while a smaller character sits on a yellow chair",R,R
+10,"a modern glass skyscraper reflecting the clouds",L,R
+11,"a man in a fire with his hands clasped",R,L
+12,"a woman with glasses and a red shirt",L,L
+13,"a bowl of fresh fruit on a wooden table, studio lighting",L,R
+14,"two cartoon characters, one in a red outfit and one in a blue outfit, standing side by side",L,R
+15,"a girl with long blonde hair and blue eyes",L,L
+16,"a dog in a blue shirt and white pants",L,R
+17,"a photograph of a red sports car on a coastal highway at sunset",L,L
+18,"a man with black hair and a brown vest",L,L
+19,"a photograph of a red sports car on a coastal highway at sunset",R,L
+20,"two cartoon characters, one in a red outfit and one in a blue outfit, standing side by side",L,R
+21,"a character on the left looking at a character on the right, who is holding a sword",L,L
+22,"three characters in a row: the left one in orange, the middle one in purple, the right one in white",L,L
+23,"a modern glass skyscraper reflecting the clouds",L,R
+24,"a woman with long black hair and blue eyes",L,L

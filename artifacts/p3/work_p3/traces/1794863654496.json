@@ -1,0 +1,67 @@
+{
+ "request": "Create a cartoon character with long red hair holding a sword.",
+ "image": null,
+ "route": "domain_generate",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/0f686b39.png",
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 4.5,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Create a cartoon character with long red hair holding a sword.",
+    "has_image": false
+   },
+   "output": {
+    "route": "domain_generate",
+    "llm": {
+     "route": "domain_generate",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": true
+   },
+   "seconds": 1.1
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "domain_generate",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "a cartoon character with long red hair holding a sword",
+    "negative_prompt": "blurry, low quality, deformed",
+    "target_caption": "a cartoon character with long red hair holding a sword"
+   },
+   "seconds": 1.97
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "a cartoon character with long red hair holding a sword",
+     "negative_prompt": "blurry, low quality, deformed",
+     "target_caption": "a cartoon character with long red hair holding a sword"
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "SD1.5 + Part2 LoRA (txt2img)",
+    "prompt": "a cartoon character with long red hair holding a sword",
+    "seed": 0,
+    "steps": 30,
+    "file": "work_p3/outputs/0f686b39.png",
+    "nsfw_flag": false
+   },
+   "seconds": 1.43
+  }
+ ]
+}

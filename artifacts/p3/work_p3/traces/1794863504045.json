@@ -1,0 +1,14 @@
+{
+ "request": "Make the sky purple.",
+ "image": "work_p3/assets/tiny.png",
+ "route": "",
+ "refused": false,
+ "message": "The image is too small (8x8); please upload at least 64x64 pixels.",
+ "error": "input_image_invalid",
+ "answer": "",
+ "output": null,
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 0.0,
+ "steps": []
+}

@@ -1,0 +1,14 @@
+{
+ "request": "Describe this image in detail.",
+ "image": "work_p3/assets/blank.png",
+ "route": "",
+ "refused": false,
+ "message": "The image looks blank or uniform; please upload a clearer image.",
+ "error": "input_image_invalid",
+ "answer": "",
+ "output": null,
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 0.01,
+ "steps": []
+}

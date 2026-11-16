@@ -1,0 +1,116 @@
+{
+ "request": "Turn the ground into snow.",
+ "image": "work_p3/assets/scene.png",
+ "route": "edit",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/4c9e408c.png",
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 20.31,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Turn the ground into snow.",
+    "has_image": true
+   },
+   "output": {
+    "route": "edit",
+    "llm": {
+     "route": "domain_generate",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "domain_style": true
+    },
+    "domain_style": true,
+    "image_check": {
+     "image_has_instructions": true
+    }
+   },
+   "seconds": 12.53
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "edit"
+   },
+   "output": {
+    "caption": "A red circle and a green square on a blue background with brown ground.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "STOP",
+    "qa": [
+     {
+      "q": "What should be done with the ground?",
+      "a": "The ground should be turned into snow."
+     },
+     {
+      "q": "What color is the circle?",
+      "a": "The circle is red."
+     }
+    ],
+    "answer": "",
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 3.84
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "edit",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "Turn the ground into snow.",
+    "negative_prompt": "blurry, low quality, deformed",
+    "target_caption": "A red circle and a green square on a blue background with snow-covered ground."
+   },
+   "seconds": 1.72
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "Turn the ground into snow.",
+     "negative_prompt": "blurry, low quality, deformed",
+     "target_caption": "A red circle and a green square on a blue background with snow-covered ground."
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "timbrooks/instruct-pix2pix",
+    "prompt": "Turn the ground into snow.",
+    "seed": 0,
+    "steps": 20,
+    "file": "work_p3/outputs/4c9e408c.png",
+    "nsfw_flag": false
+   },
+   "seconds": 0.82
+  },
+  {
+   "agent": "Critique",
+   "input": {
+    "prompt": "A red circle and a green square on a blue background with snow-covered ground."
+   },
+   "output": {
+    "clip_score": 34.2,
+    "vlm": {
+     "matches_request": true,
+     "quality": 4,
+     "safe": true,
+     "issues": "",
+     "revision_instruction": ""
+    },
+    "safe": true,
+    "decision": "accept"
+   },
+   "seconds": 1.4
+  }
+ ]
+}

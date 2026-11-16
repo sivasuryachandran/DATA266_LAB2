@@ -1,0 +1,67 @@
+{
+ "request": "Generate an anime-style character in a blue cloak at night.",
+ "image": null,
+ "route": "domain_generate",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/ada5ea89.png",
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 7.3,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Generate an anime-style character in a blue cloak at night.",
+    "has_image": false
+   },
+   "output": {
+    "route": "domain_generate",
+    "llm": {
+     "route": "domain_generate",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": true
+   },
+   "seconds": 4.07
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "domain_generate",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "anime character wearing a blue cloak at night",
+    "negative_prompt": "blurry, low quality, deformed",
+    "target_caption": "an anime character in a blue cloak at night"
+   },
+   "seconds": 1.77
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "anime character wearing a blue cloak at night",
+     "negative_prompt": "blurry, low quality, deformed",
+     "target_caption": "an anime character in a blue cloak at night"
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "SD1.5 + Part2 LoRA (txt2img)",
+    "prompt": "anime character wearing a blue cloak at night",
+    "seed": 0,
+    "steps": 30,
+    "file": "work_p3/outputs/ada5ea89.png",
+    "nsfw_flag": false
+   },
+   "seconds": 1.46
+  }
+ ]
+}

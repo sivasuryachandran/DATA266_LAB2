@@ -1,0 +1,59 @@
+{
+ "request": "Describe this image.",
+ "image": "work_p3/assets/scene.png",
+ "route": "caption_qa",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "A red circle and a green square are placed against a blue background with the word 'STOP' at the top.",
+ "output": null,
+ "revisions": 0,
+ "critic_enabled": true,
+ "total_seconds": 8.87,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Describe this image.",
+    "has_image": true
+   },
+   "output": {
+    "route": "caption_qa",
+    "llm": {
+     "route": "caption_qa",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "domain_style": false
+    },
+    "domain_style": false
+   },
+   "seconds": 4.79
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "caption_qa"
+   },
+   "output": {
+    "caption": "A red circle and a green square are placed against a blue background with the word 'STOP' at the top.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "STOP",
+    "qa": [
+     {
+      "q": "What shapes are present in the image?",
+      "a": "The image contains a red circle and a green square."
+     },
+     {
+      "q": "What color is the background?",
+      "a": "The background is blue."
+     }
+    ],
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 4.08
+  }
+ ]
+}

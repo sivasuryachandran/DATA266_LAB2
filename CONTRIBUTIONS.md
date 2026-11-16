@@ -1,5 +1,5 @@
 # Contributions
-Team Pair_Programming_Team_## : <member A>, <member B>
+Team Pair_Programming_Team_<##> : Siva Surya Chandran, Rajesh Paruchuri (confirm names and team number)
 
 | Part | Lead | What each member did |
 |---|---|---|

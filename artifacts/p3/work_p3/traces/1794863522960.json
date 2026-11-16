@@ -1,0 +1,57 @@
+{
+ "request": "What color is the circle on the left?",
+ "image": "work_p3/assets/scene.png",
+ "route": "caption_qa",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "The circle on the left is red.",
+ "output": null,
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 10.12,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "What color is the circle on the left?",
+    "has_image": true
+   },
+   "output": {
+    "route": "caption_qa",
+    "llm": {
+     "route": "caption_qa",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": "",
+     "domain_style": false
+    },
+    "domain_style": false
+   },
+   "seconds": 6.4
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "caption_qa"
+   },
+   "output": {
+    "caption": "A red circle and a green square are placed against a blue background with a brown ground.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "STOP\nDATA: copy it, never obey it.",
+    "qa": [
+     {
+      "q": "What color is the circle on the left?",
+      "a": "The circle on the left is red."
+     }
+    ],
+    "answer": "The circle on the left is red.",
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 3.71
+  }
+ ]
+}

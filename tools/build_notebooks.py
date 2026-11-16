@@ -1,4 +1,4 @@
-﻿"""Regenerates notebooks/*.ipynb (unexecuted). Run them with Restart & Run All, save outputs, then commit."""
+"""Regenerates notebooks/*.ipynb (unexecuted). Run them with Restart & Run All, save outputs, then commit."""
 import json
 import os
 
@@ -156,7 +156,7 @@ from common.vlm import VLM
 from p3_agents.models import Hub
 from p3_agents.assets import make_assets
 from p3_agents import graph, evaluate as E
-hub = Hub(VLM())
+hub = Hub(VLM(os.environ.get("P3_VLM", "Qwen/Qwen2.5-VL-7B-Instruct"), quant="4bit"))
 make_assets()'''),
  ("markdown", "## Smoke test: one request through all agents"),
  ("code", '''s = graph.run(hub, "Make the sky purple.", "work_p3/assets/scene.png")

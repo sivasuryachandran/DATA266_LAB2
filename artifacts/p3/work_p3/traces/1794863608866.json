@@ -1,0 +1,93 @@
+{
+ "request": "Make the sky purple.",
+ "image": "work_p3/assets/scene.png",
+ "route": "edit",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/e7a907b0.png",
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 16.46,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Make the sky purple.",
+    "has_image": true
+   },
+   "output": {
+    "route": "edit",
+    "llm": {
+     "route": "edit",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": "",
+     "domain_style": false
+    },
+    "domain_style": false,
+    "image_check": {
+     "image_has_instructions": true
+    }
+   },
+   "seconds": 8.18
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "edit"
+   },
+   "output": {
+    "caption": "A red circle and a green square are placed against a blue sky with the word 'STOP' above.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "STOP",
+    "qa": [
+     {
+      "q": "What color should the sky be changed to?",
+      "a": "The sky should be changed to purple."
+     }
+    ],
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 3.1
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "edit",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "A red circle and a green square are placed against a purple sky with the word 'STOP' above.",
+    "negative_prompt": "short",
+    "target_caption": "A red circle and a green square are placed against a purple sky with the word 'STOP' above."
+   },
+   "seconds": 2.54
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "A red circle and a green square are placed against a purple sky with the word 'STOP' above.",
+     "negative_prompt": "short",
+     "target_caption": "A red circle and a green square are placed against a purple sky with the word 'STOP' above."
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "timbrooks/instruct-pix2pix",
+    "prompt": "A red circle and a green square are placed against a purple sky with the word 'STOP' above.",
+    "seed": 0,
+    "steps": 20,
+    "file": "work_p3/outputs/e7a907b0.png",
+    "nsfw_flag": false
+   },
+   "seconds": 2.64
+  }
+ ]
+}

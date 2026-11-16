@@ -1,0 +1,96 @@
+{
+ "request": "Redraw this image as a pencil sketch.",
+ "image": "work_p3/assets/scene.png",
+ "route": "style_change",
+ "refused": false,
+ "message": "",
+ "error": "",
+ "answer": "",
+ "output": "work_p3/outputs/5300ba26.png",
+ "revisions": 0,
+ "critic_enabled": false,
+ "total_seconds": 18.01,
+ "steps": [
+  {
+   "agent": "Planner",
+   "input": {
+    "request": "Redraw this image as a pencil sketch.",
+    "has_image": true
+   },
+   "output": {
+    "route": "style_change",
+    "llm": {
+     "route": "style_change",
+     "ambiguous_question": "",
+     "unsafe": false,
+     "unsafe_reason": ""
+    },
+    "domain_style": false,
+    "image_check": {
+     "image_has_instructions": true
+    }
+   },
+   "seconds": 11.18
+  },
+  {
+   "agent": "Vision",
+   "input": {
+    "route": "style_change"
+   },
+   "output": {
+    "caption": "A red circle and a green square are depicted against a blue sky with a brown ground.",
+    "objects": [
+     "red circle",
+     "green square"
+    ],
+    "visible_text": "STOP",
+    "qa": [
+     {
+      "q": "What color is the circle?",
+      "a": "The circle is red."
+     },
+     {
+      "q": "What shape is the object on the right?",
+      "a": "The object on the right is a square."
+     }
+    ],
+    "image_text_flagged_as_instruction": false
+   },
+   "seconds": 3.84
+  },
+  {
+   "agent": "PromptEngineer",
+   "input": {
+    "route": "style_change",
+    "revision_instruction": "",
+    "revision": 0
+   },
+   "output": {
+    "prompt": "A red circle and a green square are depicted against a blue sky with a brown ground, rendered as a detailed pencil sketch.",
+    "negative_prompt": "short",
+    "target_caption": "A red circle and a green square are sketched against a blue sky with a brown ground."
+   },
+   "seconds": 2.29
+  },
+  {
+   "agent": "ImageGeneration",
+   "input": {
+    "prompt": {
+     "prompt": "A red circle and a green square are depicted against a blue sky with a brown ground, rendered as a detailed pencil sketch.",
+     "negative_prompt": "short",
+     "target_caption": "A red circle and a green square are sketched against a blue sky with a brown ground."
+    },
+    "revision": 0
+   },
+   "output": {
+    "model": "SD1.5 (img2img, strength 0.6)",
+    "prompt": "A red circle and a green square are depicted against a blue sky with a brown ground, rendered as a detailed pencil sketch.",
+    "seed": 0,
+    "steps": 30,
+    "file": "work_p3/outputs/5300ba26.png",
+    "nsfw_flag": false
+   },
+   "seconds": 0.69
+  }
+ ]
+}

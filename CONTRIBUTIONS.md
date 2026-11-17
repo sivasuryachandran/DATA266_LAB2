@@ -6,7 +6,7 @@ This file describes Siva's second, independent implementation, which lives in th
 
 | Part | Siva's work (this repository) |
 |---|---|
-| 1 RAG | Built a second Part 1 pipeline: hybrid dense + BM25 retrieval, table-first lookup, 4-bit Qwen2.5-VL-7B figure reader, 4-bit Qwen2.5-14B answerer with an evidence check and a conflict pass. Wrote and ran the 25-question golden-set evaluation (baseline 23, final 22 of 25), a groundedness rating page, and Kaggle submissions of this pipeline's output files (public scores 0.821, 0.794; the team repo records a later file, `submission_gh_v7`, at 0.853). |
+| 1 RAG | Built a second Part 1 pipeline: hybrid dense + BM25 retrieval, table-first lookup, 4-bit Qwen2.5-VL-7B figure reader, 4-bit Qwen2.5-14B answerer with an evidence check and a conflict pass. Wrote and ran the 25-question golden-set evaluation (baseline 23, final 22 of 25), a groundedness rating page, and Kaggle submissions of this pipeline's output files (public scores 0.821, 0.794, 0.853 for `submission_gh_v7`, and 0.858 for a later `submission.csv`, the team's best). |
 | 2 Fine-tuning | Ran the complete Part 2 pipeline: rank-4 and rank-32 LoRA runs, 120 generated images, KID/CLIP/LPIPS, memorization check, failure modes; built the blind rating page used by three raters; wrote the final-run rationale and model-card text (`docs/`). |
 | 3 Agents | Ran the complete Part 3 pipeline (15 scenarios with and without the critic, 10 red-team cases), fixed routing and a real-person-edit guardrail after the first run (first run and fixes kept in `notebooks/history/`), built the judging page. |
 | Report | Report generator (`tools/build_report.py`, numbers read from notebook outputs) and Appendix A of the shared report draft. |

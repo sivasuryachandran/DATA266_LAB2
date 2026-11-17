@@ -240,7 +240,8 @@ if len(judges) >= 2:
     crit = [sum(sheet3[i]["critic_decision"] == j[1][i]["accept_or_revise"] for i in ran) for j in judges]
     hum3 = (f"{len(judges)} judges scored every scenario against its rubric independently: they passed " + " and ".join(str(c) for c in counts)
             + f" of 15 (the automatic checks said {f1(p3f[0][0])}). They agreed on {same} of 15 verdicts ({same / 15:.2f}) and disagreed on {', '.join(dis)}; "
-            f"{both} of 15 scenarios were passed by both judges. We report that conservative count; how the disagreements are settled is to be stated by the team. "
+            f"Neither judge wrote a reason for these disagreements, so we do not claim a discussion outcome; we settled them with a fixed conservative rule: a scenario counts as passed only if both judges passed it. "
+            f"Under that rule {both} of 15 scenarios pass ({', '.join(sorted(i for i in ids if all(j[1][i]['pass'] == '1' for j in judges)))}) and the five disputed scenarios count as not passed; a lenient rule (either judge) would give {sum(any(j[1][i]['pass'] == '1' for j in judges) for i in ids)} of 15. "
             f"The critic's accept or revise decision matched the judges' on " + " and ".join(f"{c} of {len(ran)}" for c in crit) + " of the scenarios where the critic ran.")
 elif len(judges) == 1:
     name, a = judges[0]
@@ -281,7 +282,7 @@ Each conversation has its own memory; the vector store is never written while an
 <p>Dense-plus-BM25 retrieval with document diversity raised Recall@5 from {f3(base.group(3))} to {f3(fin.group(3))} and citation accuracy from {f3(base.group(4))} to {f3(fin.group(4))},
 but the answer count did <b>not</b> improve ({f1(base.group(1))} baseline vs {f1(fin.group(1))} final of 25), and answering was slightly slower. The golden set was used while developing, so these figures are
 optimistic, and 25 questions cannot separate a one-question difference. On the Kaggle public leaderboard (about 48% of the hidden questions) the earlier run of this pipeline scored 0.821
-(commit 98a2d5d; a leaderboard value, not a notebook output); an earlier submission from the team scored 0.795.</p>
+(commit 98a2d5d; a leaderboard value, not a notebook output); an earlier submission from the team scored 0.795 and the team's best later submission scored 0.858.</p>
 <p>Errors we found by reading the answers against the PDFs: reading a chart value instead of the printed table value for the same quantity, and applying
 Okun's law with the wrong sign (the formula in Document 1 predicts a small <i>rise</i> in unemployment for 2.3% growth). Answers also vary slightly between runs.</p>
 <h3>C. Safety analysis: the untrusted appendix</h3>
@@ -338,7 +339,7 @@ The earlier failures (real-person edits) show the limits of a small vision model
 edits are limited to what InstructPix2Pix and img2img can do; routing relies on phrasing rules. <i>Safety:</i> refuses sexual and graphic requests, deceptive edits of people and hidden-instruction images; never follows text found in images; failures return messages; the output is re-checked before it is shown.</div>
 
 <h2>IV. Process Notes and Known Limits</h2>
-<p>In this repository the golden set and the Part 2 prompts were first committed together with Part 1 tuning changes, so the repository alone does not show they were written before tuning (the team repository's golden set was committed before its tuning). One golden question has the same wording as a public question about another country. Part 3 routing rules and a guardrail were added after a first run on the evaluation cases, so its final numbers are optimistic. The saved Part 1 notebook outputs come from the code before the last changes; the later pipeline's output file is recorded by the team repository at 0.853 on the public leaderboard (not a notebook output). A hand-written answer key used only for development scoring of the public practice questions is deliberately kept out of the repository.</p>
+<p>In this repository the golden set and the Part 2 prompts were first committed together with Part 1 tuning changes, so the repository alone does not show they were written before tuning (the team repository's golden set was committed before its tuning). One golden question has the same wording as a public question about another country. Part 3 routing rules and a guardrail were added after a first run on the evaluation cases, so its final numbers are optimistic. The saved Part 1 notebook outputs come from the code before the last changes; the team's best public leaderboard score is 0.858, for a later submission.csv (leaderboard values are not notebook outputs; Kaggle shows submission_gh_v7 at 0.853 and an earlier run of this pipeline at 0.821). A hand-written answer key used only for development scoring of the public practice questions is deliberately kept out of the repository.</p>
 
 <h2>V. Reproducibility and Credits</h2>
 <p>Code, notebooks (with saved outputs), tags <code>p1-v1.0</code>, <code>p2-v1.0</code> and <code>p3-v1.0</code>, and the human-evaluation files are in the GitHub repository listed in <code>links.txt</code>. Seeds are fixed to 266. All models are open weights; no hosted API was used.

@@ -20,7 +20,7 @@ r=32 has 6,377,472 trainable parameters, 2.73 GB peak memory, 728 s (0.202 GPU-h
 - Run 1 produced no safety-checker flags (run 2: 3 of 40 images were blanked).
 - Run 1 is cheaper (0.144 vs 0.202 GPU-hours) and an 8x smaller adapter.
 - Fine-tuned CLIP scores are below the base model's because CLIP scores a stylised cartoon lower against a photographic caption; they should be read with KID and the human evaluation.
-- Human evaluation (run 1 vs base, blind, 25 pairs, 3 raters; files in `human_eval_p2/`): pooled win rate of the fine-tuned model 0.56 for domain style (42/75) and 0.44 for prompt match (33/75); per rater 14, 15, 13 of 25 (style) and 12, 11, 10 of 25 (prompt match). Pairwise agreement 0.68 (style) and 0.57 (prompt match). The images come from the Vast re-run of Part 2 (base and rank-4 adapter). Confirm that one rater is outside the team.
+- Human evaluation (run 1 vs base, blind, 25 pairs, 3 raters; files in `human_eval_p2/`): pooled win rate of the fine-tuned model 0.56 for domain style (42/75) and 0.44 for prompt match (33/75); per rater 14, 15, 13 of 25 (style) and 12, 11, 10 of 25 (prompt match). Pairwise agreement 0.68 (style) and 0.57 (prompt match). The images come from the Vast re-run of Part 2 (base and rank-4 adapter). One of the three raters is outside the team (confirmed).
 
 ## Model card text for Hugging Face (push with `push_adapter(..., results_text=<the table above>)`)
 **sd15-naruto-lora-r4** - LoRA adapter (rank 4) for Stable Diffusion 1.5 (`stable-diffusion-v1-5/stable-diffusion-v1-5`), fine-tuned on `lambdalabs/naruto-blip-captions` (1,221 images; 1,099 train / 122 test, seed 266; no corrupted or duplicate images found).

@@ -216,7 +216,7 @@ t2b += "</table>"
 if p2h:
     nr, res = p2h
     st, pm = res["better_domain_style(L/R)"], res["better_prompt_match(L/R)"]
-    hum2 = (f"<table><caption>Table IV. Blind comparison, run 1 vs base, 25 pairs, {nr} raters.</caption>"
+    hum2 = (f"<table><caption>Table IV. Blind comparison, run 1 vs base, 25 pairs, {nr} raters (one outside the team).</caption>"
             + row("Criterion", "Run 1 wins", "Win rate", "Rater agreement", th=True)
             + row("Domain style", f"{st[0]}/{st[1]}", f3(st[0] / st[1]), f"{st[2]:.2f}")
             + row("Prompt match", f"{pm[0]}/{pm[1]}", f3(pm[0] / pm[1]), f"{pm[2]:.2f}") + "</table>")
@@ -231,11 +231,17 @@ t3 = ("<table><caption>Table V. Part 3 on the 15 scenarios and 10 red-team cases
       + row("Final run", f1(p3f[0][0]), f1(p3f[0][1]), f"{p3f[1][0]} / {p3f[1][1]}", f"{p3f[2][0]}/{p3f[2][1]}") + "</table>")
 if len(judges) >= 2:
     ids = sorted(sheet3)
+    ran = [i for i in ids if sheet3[i]["critic_decision"]]
+    counts = [sum(j[1][i]["pass"] == "1" for i in ids) for j in judges]
     a, b = judges[0][1], judges[1][1]
-    agree = sum(a[i]["pass"] == b[i]["pass"] for i in ids) / len(ids)
-    agreed = sum((a[i]["pass"] == "1") and (b[i]["pass"] == "1") for i in ids)
-    hum3 = (f"Two judges scored every scenario against its rubric independently: they agreed on {agree:.2f} of the scenarios; "
-            f"both passed {agreed} of 15 (the rest were resolved as described in CONTRIBUTIONS.md).")
+    same = sum(a[i]["pass"] == b[i]["pass"] for i in ids)
+    both = sum(all(j[1][i]["pass"] == "1" for j in judges) for i in ids)
+    dis = [i for i in ids if len({j[1][i]["pass"] for j in judges}) > 1]
+    crit = [sum(sheet3[i]["critic_decision"] == j[1][i]["accept_or_revise"] for i in ran) for j in judges]
+    hum3 = (f"{len(judges)} judges scored every scenario against its rubric independently: they passed " + " and ".join(str(c) for c in counts)
+            + f" of 15 (the automatic checks said {f1(p3f[0][0])}). They agreed on {same} of 15 verdicts ({same / 15:.2f}) and disagreed on {', '.join(dis)}; "
+            f"{both} of 15 scenarios were passed by both judges. We report that conservative count; how the disagreements are settled is to be stated by the team. "
+            f"The critic's accept or revise decision matched the judges' on " + " and ".join(f"{c} of {len(ran)}" for c in crit) + " of the scenarios where the critic ran.")
 elif len(judges) == 1:
     name, a = judges[0]
     ids = sorted(sheet3)
@@ -259,7 +265,7 @@ BODY = f"""
 over three economics PDFs (final golden-set score {f1(fin.group(1))}/25, Recall@5 {f3(fin.group(3))}), a LoRA fine-tune of Stable Diffusion 1.5 whose
 KID against held-out images falls from {f3(kid['base'][0][0])} to {f3(kid['run1'][0][0])}, and a five-agent image-understanding and generation pipeline that passes
 {f1(p3f[0][0])}/15 automatic scenario checks and resisted {int(p3f[2][1]) - int(p3f[2][0])}/{p3f[2][1]} red-team cases. We report where each system fails and what the safety checks caught.
-Items shown as <span class="pend">PENDING</span> await human ratings and are filled in by re-running <code>tools/build_report.py</code>.</div>
+Numbers marked <span class="pend">PENDING</span> (if any) await data and are filled in by re-running <code>tools/build_report.py</code>.</div>
 <div class="cols">
 
 <h2>I. Part 1 &mdash; Multimodal RAG</h2>

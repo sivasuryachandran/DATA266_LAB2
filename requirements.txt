@@ -16,6 +16,7 @@ torch-fidelity==0.3.0
 lpips==0.1.4
 open_clip_torch==2.30.0
 gradio==5.15.0
+pydantic==2.10.6            # gradio 5.15.0 crashes on launch with pydantic >= 2.11 (TypeError: argument of type 'bool' is not iterable)
 langgraph==1.2.20
 scikit-image==0.25.0
 pandas==2.2.3

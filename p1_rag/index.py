@@ -70,13 +70,26 @@ class Retriever:
                     have.add(d)
         return [self.items[i] for i in ids]
 
-    def search_doc(self, query: str, doc_id: str, k: int = 2) -> list[dict]:
+    def search_tables(self, query: str, n: int = 2) -> list[dict]:
+        """Best n table / table-row items (exact printed numbers), so a chart description never has to stand in
+        for a table that reports the same quantity."""
+        fused = rrf([self._dense(query, 60), self._bm25(query, 60)])
+        out = []
+        for i, _ in fused:
+            it = self.items[i]
+            if str(it.get("kind", "")).startswith("table") and not it["untrusted"]:
+                out.append(it)
+                if len(out) == n:
+                    break
+        return out
+
+    def search_doc(self, query: str, doc_id: str, k: int = 2, skip_kinds=()) -> list[dict]:
         """Best k trusted items of ONE document (used to compare what each document says about the same quantity)."""
         fused = rrf([self._dense(query, 60), self._bm25(query, 60)])
         out = []
         for i, _ in fused:
             it = self.items[i]
-            if it["doc_id"] == doc_id and not it["untrusted"]:
+            if it["doc_id"] == doc_id and not it["untrusted"] and it.get("kind") not in skip_kinds:
                 out.append(it)
                 if len(out) == k:
                     break

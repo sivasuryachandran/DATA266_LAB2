@@ -1,0 +1,17 @@
+{
+  "id": "sivasuryachandran/data266-team06-p1-final",
+  "title": "data266-team06-p1-final",
+  "code_file": "p1_final.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [
+    "data-266-fall-2026-lab-2-part-1-multimodal-rag"
+  ],
+  "kernel_sources": [],
+  "model_sources": []
+}

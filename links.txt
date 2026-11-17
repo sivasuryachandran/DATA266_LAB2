@@ -1,8 +1,11 @@
-GitHub repo: https://github.com/sivasuryachandran/DATA266_LAB2
-p1-v1.0 commit: <fill after tagging>
-p2-v1.0 commit: <fill after tagging>
-p3-v1.0 commit: <fill after tagging>
-Hugging Face model (run 1, LoRA r=4): <confirm: notebook pushed to sivasuryachandran/sd15-naruto-lora-r4>
-Hugging Face model (run 2, LoRA r=32): <confirm: notebook pushed to sivasuryachandran/sd15-naruto-lora-r32>
-Hugging Face image dataset: <confirm: notebook pushed to sivasuryachandran/sd15-naruto-lora-generations>
-Final Kaggle notebook: <paste link>
+GitHub repo (Siva's implementation): https://github.com/sivasuryachandran/DATA266_LAB2
+p1-v1.0 commit: 2698425
+p2-v1.0 commit: 74dde8d
+p3-v1.0 commit: 74dde8d
+Team repository (Rajesh; contains this work under sivasurya_chandran/ once the pull request is merged): https://github.com/Paruchuri-Rajesh/data266-lab2-team06
+Pull request adding this work: https://github.com/Paruchuri-Rajesh/data266-lab2-team06/pull/1
+Hugging Face model (run 1, LoRA r=4): <confirm: pushed to sivasuryachandran/sd15-naruto-lora-r4 (private; could not be checked from outside)>
+Hugging Face model (run 2, LoRA r=32): <confirm: pushed to sivasuryachandran/sd15-naruto-lora-r32 (private)>
+Hugging Face image dataset: <confirm: pushed to sivasuryachandran/sd15-naruto-lora-generations (private)>
+Final Kaggle notebook (team, Rajesh): https://www.kaggle.com/code/rajeshparuchuri/data266-lab2-part1-team06
+Siva's Part 1 T4 runner (Colab): notebooks/p1_t4_runner.ipynb

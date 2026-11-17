@@ -1,4 +1,4 @@
-# DATA 266 Lab 2 - Pair_Programming_Team_##
+# DATA 266 Lab 2 - Pair_Programming_Team_06 (Siva Surya Chandran's implementation)
 Part 1 multimodal RAG (Kaggle) · Part 2 LoRA fine-tuning of Stable Diffusion 1.5 · Part 3 multimodal multi-agent system.
 Everything runs on one 16 GB GPU (Kaggle T4/P100 or Colab T4). Models are open weights only; **no hosted API is used**:
 Part 1: unsloth/Qwen2.5-VL-7B-Instruct-bnb-4bit (reads figures at ingestion; falls back to Qwen/Qwen2.5-VL-3B-Instruct) and
@@ -51,3 +51,13 @@ tags `p1-v1.0` `p2-v1.0` `p3-v1.0` · HF models/dataset/model card · IEEE repor
 * Tables are indexed whole and row by row (outturn vs forecast spelled out); table numbers are removed from plain-text chunks; retrieval is hybrid (dense + BM25, RRF) with one best hit per document; answers must quote verbatim evidence from the sources, otherwise status `not_found`; a second pass flags DOC1/DOC3 or DOC2/DOC3 disagreements as `conflict`.
 * Citations name a figure/table by label and page (`DOC2:Figure A-3,DOC2:p4`), as in `sample_submission.csv`.
 * The golden set was used while developing; for the report keep these numbers separate from any fresh held-out questions.
+
+## Process notes and known limits (please read before grading)
+* **Test sets and timing.** In this repository `golden_set.json` and `prompts.json` were first committed in commit `9bc21aa`, the same commit as Part 1 tuning changes,
+  so this repository alone does not prove they were written before tuning. The team repository's own golden set (`part1/golden_set.csv`) was committed on Nov 15 before its tuning. `p3_agents/scenarios.py` was in the first commit.
+* **Golden-set overlap.** Golden question G23 ("What was Japan's output growth in 2012?") uses the same wording as a public question about another country; it was not changed afterwards.
+* **Tuned on the evaluation cases (Part 3).** Routing rules and the real-person-edit guardrail were added after a first run on the 15 scenarios and 10 red-team cases (10/15 and 2/10 attacks before; 15/15 and 0/10 after).
+  Both executed notebooks are in `notebooks/history/`. The final numbers are optimistic.
+* **Part 1 notebook vs tag.** `notebooks/p1_rag.ipynb` holds outputs from the code before the last Part 1 changes (golden set 22/25); `p1-v1.0` points at the later code. The later pipeline's file was scored on Kaggle (see `CONTRIBUTIONS.md`); the notebook was not re-executed because the GPU instance ended.
+* **Human evaluation.** Part 2: 3 raters (one should be outside the team; confirm). Part 1 groundedness and Part 3 judging are incomplete (one rater / one judge so far).
+* **Not in the repository.** The hand-written answer key for the public practice questions used for development scoring is kept out on purpose. No hosted model API is used.

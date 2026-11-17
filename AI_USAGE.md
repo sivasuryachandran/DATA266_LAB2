@@ -7,3 +7,4 @@
   - Experiments that were tried and **not** adopted are not part of the tagged code.
 - Members: <edit: list what each member read, ran, wrote or changed by hand>.
 - Hosted models used at run time: **none**. All models are open weights: Qwen/Qwen2.5-VL-7B-Instruct and Qwen2.5-VL-3B-Instruct (figure reading, Parts 1 and 3), Qwen2.5-14B-Instruct 4-bit (Part 1 answers), BAAI/bge-small-en-v1.5, Stable Diffusion 1.5, timbrooks/instruct-pix2pix, CLIP ViT-B/32.
+- Claude Code also edited the team's shared report draft (Google Doc): it added Appendix A, filled the AI-usage and contributions entries for Siva, and replaced the surname placeholder.

@@ -254,7 +254,7 @@ img = lambda path, cap: f'<figure><img src="{b64(path)}" alt="{html.escape(cap)}
 
 BODY = f"""
 <div class="title"><h1>Multimodal RAG, Domain-Style Diffusion Fine-Tuning and a Multi-Agent Image System</h1>
-<p>Siva Surya Chandran and Rajesh Paruchuri &mdash; Pair_Programming_Team_&lt;##&gt; &mdash; DATA 266, Lab 2</p></div>
+<p>Siva Surya Chandran and Rajesh Paruchuri &mdash; Pair_Programming_Team_06 &mdash; DATA 266, Lab 2</p></div>
 <div class="abs">Abstract&mdash;We built three systems that run on one 16 GB GPU with open-weight models only: a retrieval-augmented question answerer
 over three economics PDFs (final golden-set score {f1(fin.group(1))}/25, Recall@5 {f3(fin.group(3))}), a LoRA fine-tune of Stable Diffusion 1.5 whose
 KID against held-out images falls from {f3(kid['base'][0][0])} to {f3(kid['run1'][0][0])}, and a five-agent image-understanding and generation pipeline that passes
@@ -331,7 +331,10 @@ The earlier failures (real-person edits) show the limits of a small vision model
 <div class="card"><b>System card.</b> <i>Can do:</i> caption images, answer questions about them, restyle or edit an image, draw new characters in the fine-tuned style. <i>Known limits:</i> small open models can misread text in images and misjudge results (the critic's accept/revise decision matched a human judge's only partly; see the human-judging paragraph);
 edits are limited to what InstructPix2Pix and img2img can do; routing relies on phrasing rules. <i>Safety:</i> refuses sexual and graphic requests, deceptive edits of people and hidden-instruction images; never follows text found in images; failures return messages; the output is re-checked before it is shown.</div>
 
-<h2>IV. Reproducibility and Credits</h2>
+<h2>IV. Process Notes and Known Limits</h2>
+<p>In this repository the golden set and the Part 2 prompts were first committed together with Part 1 tuning changes, so the repository alone does not show they were written before tuning (the team repository's golden set was committed before its tuning). One golden question has the same wording as a public question about another country. Part 3 routing rules and a guardrail were added after a first run on the evaluation cases, so its final numbers are optimistic. The saved Part 1 notebook outputs come from the code before the last changes; the later pipeline's output file is recorded by the team repository at 0.853 on the public leaderboard (not a notebook output). A hand-written answer key used only for development scoring of the public practice questions is deliberately kept out of the repository.</p>
+
+<h2>V. Reproducibility and Credits</h2>
 <p>Code, notebooks (with saved outputs), tags <code>p1-v1.0</code>, <code>p2-v1.0</code> and <code>p3-v1.0</code>, and the human-evaluation files are in the GitHub repository listed in <code>links.txt</code>. Seeds are fixed to 266. All models are open weights; no hosted API was used.
 An AI coding assistant (Claude Code) helped write and debug the code; the details are in <code>AI_USAGE.md</code>. Contributions are in <code>CONTRIBUTIONS.md</code>.</p>
 </div>

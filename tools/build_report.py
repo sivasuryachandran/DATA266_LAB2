@@ -312,13 +312,13 @@ Two LoRA runs share data, 1,500 steps, batch size 4, learning rate 1e-4 and seed
 Multi-character compositions also score lowest for run 2 on CLIP, which suggests the larger adapter fits single front-facing characters more tightly; we have not tested this directly.</p>
 {img('p2_failures.png', 'Fig. 2. Lowest-CLIP generation per model (from the Part 2 notebook).')}
 <h3>D. Safety</h3>
-<p><i>License.</i> Naruto characters are copyrighted and the dataset is CC BY-NC-SA 4.0: the adapters are for non-commercial research only. <i>NSFW.</i> The Stable Diffusion safety checker stayed on; it flagged {nsfw[0]} (base), {nsfw[1]} (run 1) and {nsfw[2]} (run 2) of 40 images.
+<p><i>License.</i> Naruto characters are copyrighted and the dataset card states no license (the images come from Narutopedia): the adapters are for non-commercial research only. <i>NSFW.</i> The Stable Diffusion safety checker stayed on; it flagged {nsfw[0]} (base), {nsfw[1]} (run 1) and {nsfw[2]} (run 2) of 40 images.
 <i>Memorization.</i> For ten in-domain images we found the most similar training image by CLIP cosine similarity; the three closest pairs (cosine 0.894, 0.893 and 0.864, as printed in Fig. 3) share the drawing style but differ in
 hair colour, clothing and pose, so we saw no near-copy of a training image. Ten images is a small check, not a proof.</p>
 {img('p2_memorization.png', 'Fig. 3. Three closest generated/training pairs (from the Part 2 notebook).')}
 <div class="card"><b>Model card (final run).</b> sd15-naruto-lora-r4: LoRA (rank 4) for stable-diffusion-v1-5, trained on {dstats.group(8)} captioned images, 1,500 steps, batch 4, lr 1e-4, {int(tr['lora_r4'][0][1]):,} trainable parameters.
 KID {f3(kid['run1'][0][0])} (base {f3(kid['base'][0][0])}), CLIP {f1(kid['run1'][0][2])} (base {f1(kid['base'][0][2])}). Limits: one franchise; weaker on out-of-domain and multi-character prompts; may resemble training images.
-License: non-commercial research only (copyrighted characters; CC BY-NC-SA 4.0 data; OpenRAIL-M base).</div>
+License: non-commercial research only (copyrighted characters; the dataset card states no license; OpenRAIL-M base).</div>
 
 <h2>III. Part 3 &mdash; Multimodal Multi-Agent System</h2>
 <h3>A. Architecture</h3>{D3}

@@ -7,7 +7,7 @@ import os
 import numpy as np
 
 SEED = 266
-DATASET = "lambdalabs/naruto-blip-captions"   # CC BY-NC-SA 4.0 per the dataset card -- verify before use
+DATASET = "lambdalabs/naruto-blip-captions"   # the dataset card states no license; images are from Narutopedia (copyrighted characters)
 RES = 512
 
 

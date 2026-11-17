@@ -27,4 +27,4 @@ r=32 has 6,377,472 trainable parameters, 2.73 GB peak memory, 728 s (0.202 GPU-h
 Training: 1,500 steps, batch size 4, lr 1e-4, 797,184 trainable parameters, 2.66 GB peak GPU memory, 519 s.
 Results: KID 0.0455 (base 0.1230), CLIP score 31.76 (base 33.35), LPIPS diversity 0.794 (base 0.822), 0/40 images flagged by the safety checker.
 Limitations: biased to one franchise and mostly front-facing characters; weaker on out-of-domain and multi-character compositional prompts; outputs can resemble training images; the Stable Diffusion safety checker stays on but is not a guarantee.
-License: **non-commercial research use only** (copyrighted characters; dataset license CC BY-NC-SA 4.0; inherits the CreativeML OpenRAIL-M terms of the base model).
+License: **non-commercial research use only** (copyrighted characters; the dataset card states no license and the images come from Narutopedia; inherits the CreativeML OpenRAIL-M terms of the base model).

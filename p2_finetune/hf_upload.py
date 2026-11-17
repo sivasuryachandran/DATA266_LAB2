@@ -27,7 +27,7 @@ the SD safety checker is kept on but is not a guarantee. Inherits the CreativeML
 """
 
 
-def push_adapter(run_dir, repo_id, results_text="", dataset="lambdalabs/naruto-blip-captions", dataset_license="CC BY-NC-SA 4.0"):
+def push_adapter(run_dir, repo_id, results_text="", dataset="lambdalabs/naruto-blip-captions", dataset_license="not stated on the dataset card (images from Narutopedia, copyrighted characters)"):
     from huggingface_hub import HfApi
     api = HfApi(token=os.environ["HF_TOKEN"])
     api.create_repo(repo_id, exist_ok=True, private=True)

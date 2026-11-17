@@ -32,10 +32,20 @@ cells.append(code("# Cell 1 - run information (required)\n"
                   "print({'code': CODE, 'python': sys.version.split()[0], 'torch': torch.__version__,\n"
                   "       'gpu': torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'cpu', 'seed': SEED})\n"))
 cells.append(code("!pip install -q pymupdf rank_bm25 'chromadb==1.5.9' sentence-transformers==3.4.1 transformers==4.49.0 accelerate==1.3.0 bitsandbytes pandas 2>&1 | tail -3\n"))
-cells.append(code("import os\nfor d in ('common', 'p1_rag'):\n    os.makedirs(f'/kaggle/working/lab2/{d}', exist_ok=True)\n"))
+cells.append(code("import os\nos.makedirs('/kaggle/working/work_p1', exist_ok=True)\nfor d in ('common', 'p1_rag'):\n    os.makedirs(f'/kaggle/working/lab2/{d}', exist_ok=True)\n"))
 for f in FILES:
     src = open(os.path.join(ROOT, f), encoding="utf-8").read()
-    cells.append(code(f"%%writefile /kaggle/working/lab2/{f}\n{src}"))
+    if not src.strip():     # %writefile refuses an empty body
+        cells.append(code(f"open('/kaggle/working/lab2/{f}', 'w').write('')   # empty package marker\n"))
+    else:
+        cells.append(code(f"%%writefile /kaggle/working/lab2/{f}\n{src}"))
+desc = open(os.path.join(ROOT, "artifacts", "vast_keep", "descriptions_Qwen_Qwen2_5_VL_7B_Instruct.json"), encoding="utf-8").read() \
+    if os.path.exists(os.path.join(ROOT, "artifacts", "vast_keep", "descriptions_Qwen_Qwen2_5_VL_7B_Instruct.json")) else None
+if desc:
+    cells.append(md("**Figure descriptions (cache).** The three PDFs are fixed, so the Qwen2.5-VL-7B descriptions of their 36 figures and tables are cached from an earlier run of the same code "
+                    "(keyed by document, label and page). Describing them from scratch takes about an hour on a T4; delete this cell's file to regenerate them (the code does that automatically for any figure that is missing from the cache). "
+                    "No question or answer is stored here.\n"))
+    cells.append(code("%%writefile /kaggle/working/work_p1/descriptions_Qwen_Qwen2_5_VL_7B_Instruct.json\n" + desc))
 cells.append(code("import os, sys, time, glob\n"
                   "os.environ['HF_HOME'] = '/tmp/hf'\n"
                   "sys.path.insert(0, '/kaggle/working/lab2'); os.chdir('/kaggle/working')\n"
@@ -60,7 +70,7 @@ nb = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3", "l
 os.makedirs(os.path.join(ROOT, "kaggle_final"), exist_ok=True)
 json.dump(nb, open(os.path.join(ROOT, "kaggle_final", "p1_final.ipynb"), "w"), indent=1)
 json.dump({"id": "sivasuryachandran/data266-team06-p1-final", "title": "data266-team06-p1-final", "code_file": "p1_final.ipynb", "language": "python",
-           "kernel_type": "notebook", "is_private": False, "enable_gpu": True, "enable_tpu": False, "enable_internet": True, "dataset_sources": [],
+           "kernel_type": "notebook", "is_private": True, "enable_gpu": True, "enable_tpu": False, "enable_internet": True, "dataset_sources": [],
            "competition_sources": ["data-266-fall-2026-lab-2-part-1-multimodal-rag"], "kernel_sources": [], "model_sources": []},
           open(os.path.join(ROOT, "kaggle_final", "kernel-metadata.json"), "w"), indent=2)
 print("wrote kaggle_final/p1_final.ipynb with", len(cells), "cells,", os.path.getsize(os.path.join(ROOT, "kaggle_final", "p1_final.ipynb")), "bytes")
